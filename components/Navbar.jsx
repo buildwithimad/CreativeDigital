@@ -20,6 +20,8 @@ const Navbar = () => {
     { label: 'ABOUT', href: '/about' },
     { label: 'SERVICES', href: '/services' },
     { label: 'OUR WORK', href: '/work' },
+        { label: 'BLOGS', href: '/blogs' },
+
     { label: 'CONTACT', href: '/contact' },
 
     { label: 'العربية', href: '/ar' },
@@ -51,7 +53,7 @@ const Navbar = () => {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className="relative text-white text-lg font-bold tracking-wide px-4 py-2 transition-all hover:text-[#6EFF33] group"
+                  className="relative text-white text-base font-bold tracking-wide px-4 py-2 transition-all hover:text-[#6EFF33] group"
                 >
                   {link.label}
                   <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-[#6EFF33] transition-all group-hover:w-full"></span>
