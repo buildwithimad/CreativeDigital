@@ -73,7 +73,7 @@ const Work = () => {
   return (
     <>
       <WorkHero />
-      <section className="py-20 bg-black/50 relative z-30 w-full">
+      <section className="py-20 px-8 md:px-12 bg-black/70 relative z-30 w-full">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, index) => (
             <ScrollBasedAnimation key={project._id} direction="up" offset={80} delay={index * 0.1}>

@@ -22,10 +22,10 @@ const ServiceCard = ({ service, index }) => (
           <div className="flex items-center gap-3 mb-2">
             <Minus className="w-4 h-4 text-[#6EFF33]" />
           </div>
-          <h3 className="text-white text-xl sm:text-2xl md:text-3xl font-bold mb-2 group-hover:text-[#6EFF33] transition-colors duration-500">
+          <h3 className="text-white text-xl sm:text-2xl md:text-2xl font-bold mb-2 group-hover:text-[#6EFF33] transition-colors duration-500">
             {service.title}
           </h3>
-          <p className="text-gray-400 text-sm sm:text-base md:text-lg">{service.description}</p>
+          <p className="text-gray-400 text-sm md:text-base ">{service.description}</p>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@ export default async function ServicesPageContent() {
   console.log('Fetched services data:', servicesData);
 
   return (
-    <section className="bg-black/50 py-16 sm:py-20 lg:py-32">
+    <section className="bg-black/70 py-16 sm:py-20 lg:py-32 z-30 relative">
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
         {servicesData.map((service, index) => (
           <ServiceCard key={service._id} service={service} index={index} />
