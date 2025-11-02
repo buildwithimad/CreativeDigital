@@ -4,7 +4,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-black text-primary relative overflow-hidden">
+    <footer className="w-full border-t border-primary bg-black text-primary relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
 

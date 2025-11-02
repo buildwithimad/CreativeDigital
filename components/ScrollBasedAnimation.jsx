@@ -74,7 +74,7 @@ const ScrollBasedAnimation = ({
       variants={variants}
       initial="hidden"
       animate={controls}
-      style={{ willChange: "transform, opacity" }}
+    style={{ willChange: "transform, opacity", pointerEvents: "auto" }}
     >
       {children}
     </motion.div>

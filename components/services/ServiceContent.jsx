@@ -1,47 +1,17 @@
-'use client';
+// app/services/ServicesPageContent.js
 import React from 'react';
 import ScrollBasedAnimation from '../ScrollBasedAnimation';
 import { Minus } from 'lucide-react';
+import { client } from '../../sanity/lib/client';
+import { urlFor } from '../../sanity/lib/image';
 
-const servicesData = [
-  {
-    title: 'Digital Strategy',
-    description: 'Comprehensive digital strategies to maximize growth and engagement.',
-    image: 'https://images.unsplash.com/photo-1558888405-0c012b4b5f46?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    title: 'Creative Design',
-    description: 'Captivating visuals and experiences that resonate with your audience.',
-    image: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    title: 'Marketing Automation',
-    description: 'Automate marketing processes efficiently to boost conversion.',
-    image: 'https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    title: 'Branding & Identity',
-    description: 'Define your brand’s voice, personality, and visual identity for maximum impact.',
-    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    title: 'Analytics & Insights',
-    description: 'Analyze data to provide actionable insights and optimize business strategies.',
-    image: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    title: 'Consulting & Support',
-    description: 'Our experts guide your team with tailored advice to help achieve your business goals.',
-    image: 'https://images.unsplash.com/photo-1601597111971-07a798b0ecf4?auto=format&fit=crop&w=800&q=80',
-  },
-];
-
+// ServiceCard stays mostly the same
 const ServiceCard = ({ service, index }) => (
   <ScrollBasedAnimation direction="up" offset={50} delay={0.2 * index}>
     <div className="bg-secondary group overflow-hidden duration-500 cursor-pointer">
       <div className="relative h-64 sm:h-72 md:h-80 overflow-hidden ">
         <img
-          src={service.image}
+          src={urlFor(service.image).width(800).url()}
           alt={service.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
@@ -62,18 +32,24 @@ const ServiceCard = ({ service, index }) => (
   </ScrollBasedAnimation>
 );
 
-const ServicesPageContent = () => {
+export default async function ServicesPageContent() {
+  // Fetch services from Sanity
+  const servicesData = await client.fetch(`*[_type == "service"]{
+    _id,
+    title,
+    description,
+    image
+  }`);
+
+  console.log('Fetched services data:', servicesData);
+
   return (
     <section className="bg-black/50 py-16 sm:py-20 lg:py-32">
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
         {servicesData.map((service, index) => (
-          <ServiceCard key={index} service={service} index={index} />
+          <ServiceCard key={service._id} service={service} index={index} />
         ))}
       </div>
-
-    
     </section>
   );
-};
-
-export default ServicesPageContent;
+}
