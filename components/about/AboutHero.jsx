@@ -1,15 +1,18 @@
 'use client';
 import React from 'react';
 import ScrollBasedAnimation from '../ScrollBasedAnimation';
+import { useTranslation } from 'react-i18next';
 
 const AboutHero = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="relative w-full h-[700px] overflow-hidden text-white">
 
       {/* Fixed Video Background */}
       <video
         className="fixed top-0 left-0 w-full h-full object-cover z-0"
-        src="https://www.pexels.com/download/video/3835213/"
+        src="https://www.pexels.com/download/video/3129671/"
         autoPlay
         loop
         muted
@@ -25,17 +28,17 @@ const AboutHero = () => {
         {/* Heading */}
         <ScrollBasedAnimation direction="up" offset={70} delay={0}>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight max-w-3xl md:max-w-4xl">
-            About <span className="text-accent">CreativeDigital</span>
+            {t("aboutCreativeDigital")}
           </h1>
         </ScrollBasedAnimation>
 
         {/* Subheading */}
         <ScrollBasedAnimation direction="up" offset={70} delay={0.2}>
           <p className="text-lg sm:text-xl md:text-2xl max-w-3xl mb-4 md:mb-6 opacity-90">
-            Pioneering digital innovation in Saudi Arabia, we transform ideas into impactful digital experiences.
+            {t("aboutHeroDesc1")}
           </p>
           <p className="text-md sm:text-lg md:text-xl max-w-3xl text-gray-300 leading-relaxed">
-            Our mission is to empower businesses with cutting-edge digital solutions that enhance brand presence, drive measurable growth, and create lasting competitive advantages in the marketplace.
+            {t("aboutHeroDesc2")}
           </p>
         </ScrollBasedAnimation>
 

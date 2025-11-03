@@ -27,6 +27,8 @@ body {
   direction: rtl;
   width: 100vw;
   overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 [dir="rtl"] .navbar-container {
@@ -35,6 +37,11 @@ body {
 
 [dir="rtl"] * {
   box-sizing: border-box;
+}
+
+[dir="rtl"] section {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 /* Convenience classes for background colors */

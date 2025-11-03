@@ -3,8 +3,10 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import ScrollBasedAnimation from '../ScrollBasedAnimation';
+import { useTranslation } from 'react-i18next';
 
 const Contact = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -27,19 +29,19 @@ const Contact = () => {
       <div className="text-center w-full px-4 sm:px-6 md:px-8 lg:px-16 xl:px-20 py-12 md:py-16 lg:py-20 bg-black">
         <ScrollBasedAnimation direction="up" offset={50}>
           <span className="text-white text-sm sm:text-base font-bold tracking-widest uppercase mb-2 inline-block">
-            Contact Us
+            {t("contactUs")}
           </span>
         </ScrollBasedAnimation>
 
         <ScrollBasedAnimation direction="up" offset={50} delay={0.1}>
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white tracking-tight leading-tight">
-            Let's Start a Conversation
+            {t("letsStartAConversation")}
           </h1>
         </ScrollBasedAnimation>
 
         <ScrollBasedAnimation direction="up" offset={50} delay={0.2}>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 max-w-2xl lg:max-w-3xl mx-auto mt-4 px-4">
-            Ready to bring your ideas to life? Get in touch and let's create something amazing together.
+            {t("contactDescription")}
           </p>
         </ScrollBasedAnimation>
       </div>
@@ -49,13 +51,13 @@ const Contact = () => {
       <div className="lg:w-1/2 w-full bg-black text-white flex flex-col justify-center px-8 md:px-12 lg:px-16 xl:px-20 py-16">
         <ScrollBasedAnimation direction="right" offset={50}>
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-10 leading-tight text-[#6EFF33]">
-            GET IN TOUCH
+            {t("getInTouch")}
           </h2>
         </ScrollBasedAnimation>
 
         <ScrollBasedAnimation direction="left" offset={50}>
           <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-10 font-light">
-            Have a question or project idea? Let’s talk — we’d love to help you make it happen.
+            {t("contactInfoDescription")}
           </p>
         </ScrollBasedAnimation>
 
@@ -105,7 +107,7 @@ const Contact = () => {
       <div className="lg:w-1/2 w-full bg-primary flex flex-col justify-center px-8 md:px-12 lg:px-16 xl:px-20 py-16">
         <ScrollBasedAnimation direction="left" offset={50}>
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-black mb-10 leading-tight">
-            CONTACT FORM
+            {t("contactForm")}
           </h2>
         </ScrollBasedAnimation>
 
@@ -114,7 +116,7 @@ const Contact = () => {
             <input
               type="text"
               name="name"
-              placeholder="Your Name"
+              placeholder={t("yourName")}
               value={formData.name}
               onChange={handleChange}
               className="w-full border border-gray-300 focus:border-[#6EFF33] px-5 py-3 text-base outline-none transition-all duration-200"
@@ -123,7 +125,7 @@ const Contact = () => {
             <input
               type="email"
               name="email"
-              placeholder="Your Email"
+              placeholder={t("yourEmail")}
               value={formData.email}
               onChange={handleChange}
               className="w-full border border-gray-300 focus:border-[#6EFF33] px-5 py-3 text-base outline-none transition-all duration-200"
@@ -132,14 +134,14 @@ const Contact = () => {
             <input
               type="text"
               name="subject"
-              placeholder="Subject"
+              placeholder={t("subject")}
               value={formData.subject}
               onChange={handleChange}
               className="w-full border border-gray-300 focus:border-[#6EFF33] px-5 py-3 text-base outline-none transition-all duration-200"
             />
             <textarea
               name="message"
-              placeholder="Your Message"
+              placeholder={t("yourMessage")}
               value={formData.message}
               onChange={handleChange}
               rows={5}
@@ -151,7 +153,7 @@ const Contact = () => {
               className="bg-[#6EFF33] text-black px-8 py-4 font-semibold text-lg hover:bg-[#5AE02B] transition-all duration-200 flex items-center justify-center gap-2"
             >
               <Send className="w-5 h-5" />
-              Send Message
+              {t("sendMessage")}
             </button>
           </form>
         </ScrollBasedAnimation>

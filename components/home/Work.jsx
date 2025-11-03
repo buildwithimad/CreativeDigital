@@ -7,6 +7,7 @@ import Slider from 'react-slick';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import ScrollBasedAnimation from '../ScrollBasedAnimation';
 import { client } from '../../sanity/lib/client';
+import { useTranslation } from 'react-i18next';
 
 // Custom Arrow Components
 const NextArrow = ({ onClick }) => (
@@ -28,6 +29,7 @@ const PrevArrow = ({ onClick }) => (
 );
 
 const Work = () => {
+  const { t } = useTranslation();
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
 
@@ -86,14 +88,14 @@ const Work = () => {
       <div className="px-8 md:px-12 lg:px-16 xl:px-20">
        {/* Heading */}
 <ScrollBasedAnimation direction="up" offset={80}>
-  <div className="mb-12 text-center lg:text-left">
-    <h2 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-primary tracking-tight leading-[1.1]">
-      Our <span className="text-accent">Work</span>
-    </h2>
-    <p className="mt-4 text-lg md:text-xl text-gray-300 font-light max-w-2xl">
-      Crafting digital experiences that blend creativity, strategy, and impact — see how we bring brands to life.
-    </p>
-  </div>
+<div className="mb-12 text-center lg:text-left">
+<h2 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-primary tracking-tight leading-[1.1]">
+{t("our")} <span className="text-accent">{t("work")}</span>
+</h2>
+<p className="mt-4 text-lg md:text-xl text-gray-300 font-light max-w-2xl">
+{t("workDescription")}
+</p>
+</div>
 </ScrollBasedAnimation>
 
 
@@ -129,7 +131,7 @@ const Work = () => {
               href="/work"
               className="inline-block bg-accent text-black font-semibold py-3 px-8 hover:bg-green-400 transition-colors duration-300 text-lg"
             >
-              View All Work
+              {t("viewAllWork")}
             </Link>
           </div>
         </ScrollBasedAnimation>

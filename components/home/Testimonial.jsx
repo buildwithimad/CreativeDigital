@@ -4,8 +4,10 @@ import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import ScrollBasedAnimation from '../ScrollBasedAnimation';
 import { client } from '../../sanity/lib/client';
 import { groq } from 'next-sanity';
+import { useTranslation } from 'react-i18next';
 
 const Testimonials = () => {
+  const { t } = useTranslation();
   const [testimonialsData, setTestimonialsData] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -68,19 +70,19 @@ const Testimonials = () => {
       <div className="text-center px-4 sm:px-6 md:px-8 lg:px-16 xl:px-20 mb-12">
         <ScrollBasedAnimation direction="up" offset={50} delay={0}>
           <span className="text-primary text-sm sm:text-base font-bold tracking-widest uppercase mb-2 inline-block">
-            Testimonials
+            {t("testimonials")}
           </span>
         </ScrollBasedAnimation>
 
         <ScrollBasedAnimation direction="up" offset={50} delay={0.1}>
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary tracking-tight">
-            What Our Clients Say
+            {t("whatOurClientsSay")}
           </h1>
         </ScrollBasedAnimation>
 
         <ScrollBasedAnimation direction="up" offset={50} delay={0.2}>
           <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mt-4">
-            Hear from our clients how we helped them achieve their goals and grow their businesses.
+            {t("testimonialsDescription")}
           </p>
         </ScrollBasedAnimation>
       </div>
@@ -91,7 +93,7 @@ const Testimonials = () => {
           <div className="text-center">
             <ScrollBasedAnimation direction="up" offset={50} delay={0.3}>
               <p className="text-gray-300 text-lg md:text-xl">
-                No reviews yet. Be the first to share your experience!
+                {t("noReviewsYet")}
               </p>
             </ScrollBasedAnimation>
           </div>
@@ -134,7 +136,7 @@ const Testimonials = () => {
 
                         {/* Google-like timestamp */}
                         <div className="mt-6 pt-6 border-t-2 border-[#1a1a1a]">
-                          <p className="text-gray-500 text-xs">Verified Review</p>
+                          <p className="text-gray-500 text-xs">{t("verifiedReview")}</p>
                         </div>
                       </div>
                     </ScrollBasedAnimation>

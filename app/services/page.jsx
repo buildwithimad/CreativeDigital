@@ -1,13 +1,22 @@
+// app/services/page.js
 import ServicesHero from '../../components/services/Servicehero';
 import ServicesPageContent from '../../components/services/ServiceContent';
+import { client } from '../../sanity/lib/client';
 
-const ServicesPage = () => {
+export default async function ServicesPage() {
+  const servicesData = await client.fetch(`*[_type == "service"]{
+    _id,
+    title,
+    description,
+    image
+  }`);
+
   return (
-    <>
-      <ServicesHero />
-      <ServicesPageContent />
-    </>
-  );
-};
 
-export default ServicesPage;
+    <>
+    <ServicesHero/>
+    <ServicesPageContent servicesData={servicesData} />;
+    
+    </>
+  ) 
+}

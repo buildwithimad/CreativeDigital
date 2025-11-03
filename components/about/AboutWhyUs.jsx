@@ -2,28 +2,31 @@
 import React from 'react';
 import { FaFlag, FaChartBar, FaBolt, FaTrophy } from 'react-icons/fa';
 import ScrollBasedAnimation from '../ScrollBasedAnimation';
+import { useTranslation } from 'react-i18next';
 
 const WhyChooseUs = () => {
+  const { t } = useTranslation();
+
   const reasons = [
     {
       icon: <FaFlag className="text-5xl mb-4 text-accent" />,
-      title: 'Local Expertise',
-      desc: 'Deep understanding of Saudi market dynamics and cultural nuances.',
+      title: t('localExpertise'),
+      desc: t('localExpertiseDesc'),
     },
     {
       icon: <FaChartBar className="text-5xl mb-4 text-accent" />,
-      title: 'Data-Driven',
-      desc: 'Every strategy backed by comprehensive analytics and measurable KPIs.',
+      title: t('dataDriven'),
+      desc: t('dataDrivenDesc'),
     },
     {
       icon: <FaBolt className="text-5xl mb-4 text-accent" />,
-      title: 'Agile Delivery',
-      desc: 'Rapid deployment with uncompromising quality standards.',
+      title: t('agileDelivery'),
+      desc: t('agileDeliveryDesc'),
     },
     {
       icon: <FaTrophy className="text-5xl mb-4 text-accent" />,
-      title: 'Proven Results',
-      desc: 'Consistent track record of driving significant business growth.',
+      title: t('provenResults'),
+      desc: t('provenResultsDesc'),
     },
   ];
 
@@ -33,10 +36,10 @@ const WhyChooseUs = () => {
       <ScrollBasedAnimation direction="up" offset={50}>
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
-            Why Choose CreativeDigital
+            {t("whyChooseCreativeDigital")}
           </h2>
           <p className="text-gray-300 text-lg md:text-xl max-w-3xl mx-auto">
-            Your trusted partner for digital transformation in Saudi Arabia
+            {t("whyChooseDesc")}
           </p>
         </div>
       </ScrollBasedAnimation>
@@ -58,7 +61,7 @@ const WhyChooseUs = () => {
       <ScrollBasedAnimation direction="up" offset={50} delay={0.5}>
         <div className="text-center">
           <button className="bg-accent hover:bg-green-500 text-black font-semibold py-4 px-10 transition-all duration-300 transform hover:scale-105">
-            Contact Us
+            {t("contactUs")}
           </button>
         </div>
       </ScrollBasedAnimation>

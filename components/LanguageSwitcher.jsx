@@ -8,6 +8,7 @@ import '@/lib/i18n';
 export default function LanguageSwitcher({ isMobile = false }) {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const isRTL = i18n.language === 'ar';
 
   // Load saved language from localStorage (if available)
   useEffect(() => {
@@ -40,6 +41,39 @@ export default function LanguageSwitcher({ isMobile = false }) {
 
   const currentLang = languages.find(lang => lang.code === i18n.language) || languages[0];
 
+  if (isMobile) {
+    return (
+      <div className="relative">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className={`flex items-center gap-3 w-full text-left text-3xl sm:text-4xl font-bold text-white hover:text-[#6EFF33] transition-all border-l-4 border-transparent hover:border-[#6EFF33] pl-4 ${isRTL ? 'flex-row-reverse text-right' : ''}`}
+        >
+          <Globe className="w-8 h-8" />
+          <span>{currentLang.flag} {currentLang.name}</span>
+        </button>
+
+        {isOpen && (
+          <div className={`mt-4 space-y-2 ${isRTL ? 'mr-8' : 'ml-8'}`}>
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => changeLanguage(lang.code)}
+                className={`flex items-center gap-3 text-2xl font-semibold transition-all ${
+                  i18n.language === lang.code
+                    ? 'text-[#6EFF33] border-l-4 border-[#6EFF33]'
+                    : 'text-white hover:text-[#6EFF33] border-l-4 border-transparent hover:border-[#6EFF33]'
+                } ${isRTL ? 'flex-row-reverse text-right pr-4 pl-0 border-r-4 border-l-0' : 'pl-4'}`}
+              >
+                <span>{lang.flag}</span>
+                <span>{lang.name}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="relative">
       <button
@@ -64,14 +98,14 @@ export default function LanguageSwitcher({ isMobile = false }) {
             className="fixed inset-0 z-10"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute right-0 top-full mt-2 w-40 bg-white/95 backdrop-blur-sm border border-white/20  shadow-xl z-20 overflow-hidden">
+          <div className={`absolute top-full mt-2 w-40 bg-white/95 backdrop-blur-sm border border-white/20 shadow-xl z-20 overflow-hidden ${isRTL ? 'left-0' : 'right-0'}`}>
             {languages.map((lang) => (
               <button
                 key={lang.code}
                 onClick={() => changeLanguage(lang.code)}
-                className={`flex items-center gap-3 w-full px-4 py-3 text-left hover:bg-[#6EFF33]/10 transition-colors duration-200 ${
+                className={`flex items-center gap-3 w-full px-4 py-3 hover:bg-[#6EFF33]/10 transition-colors duration-200 ${
                   i18n.language === lang.code ? 'bg-[#6EFF33]/20 text-[#6EFF33]' : 'text-gray-700'
-                }`}
+                } ${isRTL ? 'text-right flex-row-reverse' : 'text-left'}`}
               >
                 <span className="text-lg">{lang.flag}</span>
                 <span className="font-medium">{lang.name}</span>

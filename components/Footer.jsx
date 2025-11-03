@@ -3,8 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { Github, Twitter, Linkedin, Instagram, Facebook } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="w-full bg-black text-white relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-8 md:px-12 lg:px-16 xl:px-20 py-16">
@@ -16,7 +19,7 @@ const Footer = () => {
               CreativeDigital
             </h2>
             <p className="text-gray-300 text-base leading-relaxed mb-6 max-w-md">
-              Crafting digital experiences with innovation and precision. We transform ideas into reality through cutting-edge design and technology.
+              {t("footerDescription")}
             </p>
             <div className="flex gap-4">
               {[
@@ -42,7 +45,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold text-accent mb-6">Quick Links</h3>
+            <h3 className="text-lg font-semibold text-accent mb-6">{t("quickLinks")}</h3>
             <nav className="flex flex-col gap-3">
               {[
                 { name: 'Home', href: '/' },
@@ -65,18 +68,18 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold text-accent mb-6">Get In Touch</h3>
+            <h3 className="text-lg font-semibold text-accent mb-6">{t("getInTouch")}</h3>
             <div className="space-y-3">
               <p className="text-gray-300 text-sm">
-                <span className="block font-medium text-white">Email</span>
+                <span className="block font-medium text-white">{t("email")}</span>
                 hello@creativedigital.com
               </p>
               <p className="text-gray-300 text-sm">
-                <span className="block font-medium text-white">Phone</span>
+                <span className="block font-medium text-white">{t("phone")}</span>
                 +1 (555) 123-4567
               </p>
               <p className="text-gray-300 text-sm">
-                <span className="block font-medium text-white">Address</span>
+                <span className="block font-medium text-white">{t("address")}</span>
                 123 Creative Street<br />
                 Design City, DC 12345
               </p>
@@ -88,10 +91,10 @@ const Footer = () => {
         <div className="mt-12 pt-8 border-t border-gray-800">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} CreativeDigital. All rights reserved.
+              © {new Date().getFullYear()} CreativeDigital. {t("allRightsReserved")}
             </p>
             <p className="text-gray-400 text-sm">
-              Developed by{' '}
+              {t("developedBy")}{' '}
               <a
                 href="https://www.imadkhan.online"
                 target="_blank"

@@ -16,7 +16,7 @@ const Navbar = () => {
   const links = [
         { label: t('home'), href: '/' },
     { label: t('about'), href: '/about' },
-    { label: t('services'), href: '/services' },
+    { label: t('nav-service'), href: '/services' },
     { label: t('ourWork'), href: '/work' },
         { label: t('blogs'), href: '/blogs' },
 
