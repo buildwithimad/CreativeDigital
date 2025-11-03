@@ -88,11 +88,11 @@ const Work = () => {
       <div className="px-8 md:px-12 lg:px-16 xl:px-20">
        {/* Heading */}
 <ScrollBasedAnimation direction="up" offset={80}>
-<div className="mb-12 text-center lg:text-left">
+<div className="mb-12 text-center">
 <h2 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-primary tracking-tight leading-[1.1]">
 {t("our")} <span className="text-accent">{t("work")}</span>
 </h2>
-<p className="mt-4 text-lg md:text-xl text-gray-300 font-light max-w-2xl">
+<p className="mt-4 text-center text-lg md:text-xl text-gray-300 font-light">
 {t("workDescription")}
 </p>
 </div>

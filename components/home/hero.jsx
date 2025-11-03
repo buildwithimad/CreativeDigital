@@ -27,7 +27,7 @@ const isRTL = i18n.language === 'ar';
       {/* Content */}
       <div
         className={`relative z-20 flex flex-col justify-center items-center h-full px-6 md:px-12 py-20 md:py-0 text-center transition-all duration-300
-        ${isRTL ? 'RTL' : 'LTR'}`}
+        ${isRTL ? 'md:items-start md:text-right' : 'md:items-start md:text-left'}`}
       >
         {/* Heading */}
         <ScrollBasedAnimation direction="up" offset={70} delay={0}>
