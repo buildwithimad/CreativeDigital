@@ -8,7 +8,7 @@
   "home": "HOME",
   "about": "ABOUT",
   "nav-service": "SERVICES",
-  "ourWork": "OUR WORK",
+  "nav-ourWork": "OUR WORK",
   "blogs": "BLOGS",
   "contact": "CONTACT",
   "ourStory": "OUR STORY",
@@ -78,5 +78,8 @@
   "provenResults": "Proven Results",
   "provenResultsDesc": "Consistent track record of driving significant business growth.",
   "ourServices": "Our Services",
-  "servicesDescription": "Crafting digital solutions that drive growth and elevate your brand."
+  "servicesDescription": "Crafting digital solutions that drive growth and elevate your brand.",
+  "ourWork": "Our Work",
+  "workHeroDesc1": "Crafting digital experiences that blend creativity, strategy, and impact.",
+  "workHeroDesc2": "See how we bring brands to life through innovative design and cutting-edge technology."
 }
