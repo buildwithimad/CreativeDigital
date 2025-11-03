@@ -31,17 +31,6 @@ body {
   direction: ltr; /* Keep navbar layout consistent */
 }
 
-/* RTL/LTR utility classes */
-.RTL {
-  direction: rtl;
-  text-align: right;
-}
-
-.LTR {
-  direction: ltr;
-  text-align: left;
-}
-
 /* Convenience classes for background colors */
 .bg-primary { background-color: var(--color-primary); }
 .bg-secondary { background-color: var(--color-secondary); }

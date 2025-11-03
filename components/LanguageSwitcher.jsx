@@ -41,7 +41,39 @@ export default function LanguageSwitcher({ isMobile = false }) {
 
   const currentLang = languages.find(lang => lang.code === i18n.language) || languages[0];
 
- 
+  if (isMobile) {
+    return (
+      <div className="relative">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className={`flex items-center gap-3 w-full text-left text-3xl sm:text-4xl font-bold text-white hover:text-[#6EFF33] transition-all border-l-4 border-transparent hover:border-[#6EFF33] pl-4 ${isRTL ? 'flex-row-reverse text-right' : ''}`}
+        >
+          <Globe className="w-8 h-8" />
+          <span>{currentLang.flag} {currentLang.name}</span>
+        </button>
+
+        {isOpen && (
+          <div className={`mt-4 space-y-2 ${isRTL ? 'mr-8' : 'ml-8'}`}>
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => changeLanguage(lang.code)}
+                className={`flex items-center gap-3 text-2xl font-semibold transition-all ${
+                  i18n.language === lang.code
+                    ? 'text-[#6EFF33] border-l-4 border-[#6EFF33]'
+                    : 'text-white hover:text-[#6EFF33] border-l-4 border-transparent hover:border-[#6EFF33]'
+                } ${isRTL ? 'flex-row-reverse text-right pr-4 pl-0 border-r-4 border-l-0' : 'pl-4'}`}
+              >
+                <span>{lang.flag}</span>
+                <span>{lang.name}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="relative">
       <button
