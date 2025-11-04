@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 const Contact = () => {
   const { t } = useTranslation();
+    const [status, setStatus] = useState({ loading: false, message: '' });
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,10 +18,35 @@ const Contact = () => {
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-  };
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setStatus({ loading: true, message: 'Sending message...' });
+
+  try {
+    const res = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      setStatus({ loading: false, message: '✅ Message sent successfully!' });
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } else {
+      setStatus({
+        loading: false,
+        message: `❌ Failed to send: ${data.error || 'Please try again later.'}`,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    setStatus({ loading: false, message: '❌ Something went wrong.' });
+  }
+};
+
 
   return (
     <section className=" items-stretch min-h-screen max-w-[1400px] mx-auto bg-white relative z-30">
@@ -150,11 +176,31 @@ const Contact = () => {
             ></textarea>
             <button
               type="submit"
-              className="bg-[#6EFF33] text-black px-8 py-4 font-semibold text-lg hover:bg-[#5AE02B] transition-all duration-200 flex items-center justify-center gap-2"
+              disabled={status.loading}
+              className="bg-[#6EFF33] text-black px-8 py-4 font-semibold text-lg hover:bg-[#5AE02B] transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#6EFF33]"
             >
-              <Send className="w-5 h-5" />
-              {t("sendMessage")}
+              {status.loading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Send className="w-5 h-5" />
+                  {t("sendMessage")}
+                </>
+              )}
             </button>
+            {status.message && (
+  <p
+    className={`text-sm mt-2 ${
+      status.message.startsWith('✅') ? 'text-green-600' : 'text-red-600'
+    }`}
+  >
+    {status.message}
+  </p>
+)}
+
           </form>
         </ScrollBasedAnimation>
       </div>
