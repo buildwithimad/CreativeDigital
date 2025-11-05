@@ -50,8 +50,8 @@ const Navbar = () => {
   <Link href="/" className="flex items-center gap-3 leading-none group">
     {/* Logo Image */}
     <Image
-      src="/logo.png" // replace with your image path or URL
-      alt="Logo"
+      src="/CreativedigitalLogo.png" // replace with your image path or URL
+      alt="Creative Logo"
       width={140}
       height={140}
       className="w-20 h-20 md:w-36 md:h-36 object-contain"
