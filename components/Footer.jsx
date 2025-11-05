@@ -2,28 +2,41 @@
 
 import React from "react";
 import Link from "next/link";
-import { Github, Twitter, Linkedin, Instagram, Facebook } from 'lucide-react';
+import { Twitter, Linkedin, Instagram, Facebook } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import Image from "next/image";
 
 const Footer = () => {
   const { t } = useTranslation();
 
   return (
     <footer className="w-full bg-black text-white relative overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-8 md:px-12 lg:px-16 xl:px-20 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 py-12 md:py-16 lg:py-20">
+        
+        {/* Grid Container */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 lg:gap-12 auto-rows-auto">
 
           {/* Brand & Description */}
-          <div className="lg:col-span-2">
-            <h2 className="text-3xl md:text-4xl font-black tracking-tighter text-white mb-4">
-              CreativeDigital
-            </h2>
-            <p className="text-gray-300 text-base leading-relaxed mb-6 max-w-md">
+          <div className="lg:col-span-2 flex flex-col items-start justify-start">
+            {/* Logo */}
+            <Link href="/" className="mb-4 lg:mb-6 inline-block">
+            <Image
+              src="/CreativedigitalLogo.png"
+              alt="Creative Digital Logo"
+              width={120}
+              height={1}
+              className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-64 lg:h-64 object-cover"
+            />
+            </Link>
+
+            {/* Description */}
+            <p className="text-gray-400 text-sm sm:text-base leading-relaxed mb-6 lg:mb-8 max-w-md">
               {t("footerDescription")}
             </p>
-            <div className="flex gap-4">
+
+            {/* Social Icons */}
+            <div className="flex gap-3">
               {[
-                { href: "https://github.com", icon: Github, label: "GitHub" },
                 { href: "https://twitter.com", icon: Twitter, label: "Twitter" },
                 { href: "https://linkedin.com", icon: Linkedin, label: "LinkedIn" },
                 { href: "https://instagram.com", icon: Instagram, label: "Instagram" },
@@ -34,10 +47,10 @@ const Footer = () => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-accent transition-all duration-300 hover:scale-110 group"
+                  className="w-11 h-11 flex items-center justify-center bg-white/5 border border-white/10 hover:border-[#6EFF33] hover:bg-[#6EFF33]/10 transition-all duration-300 group rounded"
                   aria-label={social.label}
                 >
-                  <social.icon className="w-5 h-5 text-gray-300 group-hover:text-black transition-colors" />
+                  <social.icon className="w-5 h-5 text-gray-400 group-hover:text-[#6EFF33] transition-colors duration-300" />
                 </a>
               ))}
             </div>
@@ -45,8 +58,10 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold text-accent mb-6">{t("quickLinks")}</h3>
-            <nav className="flex flex-col gap-3">
+            <h3 className="text-base sm:text-lg font-bold text-[#6EFF33] mb-4 lg:mb-6 uppercase tracking-wider">
+              {t("quickLinks")}
+            </h3>
+            <nav className="flex flex-col gap-2.5 lg:gap-3">
               {[
                 { name: t("home"), href: '/' },
                 { name: t('about'), href: '/about' },
@@ -58,7 +73,7 @@ const Footer = () => {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-gray-300 hover:text-accent transition-colors duration-300 text-sm"
+                  className="text-gray-400 hover:text-[#6EFF33] transition-all duration-300 text-sm sm:text-base hover:translate-x-1 inline-block"
                 >
                   {item.name}
                 </Link>
@@ -68,44 +83,79 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold text-accent mb-6">{t("getInTouch")}</h3>
-            <div className="space-y-3">
-              <p className="text-gray-300 text-sm">
-                <span className="block font-medium text-white">{t("email")}</span>
-                hello@creativeedigital.com
-              </p>
-              <p className="text-gray-300 text-sm">
-                <span className="block font-medium text-white">{t("phone")}</span>
-                +1 (555) 123-4567
-              </p>
-              <p className="text-gray-300 text-sm">
-                <span className="block font-medium text-white">{t("address")}</span>
-                123 Creative Street<br />
-                Design City, DC 12345
-              </p>
+            <h3 className="text-base sm:text-lg font-bold text-[#6EFF33] mb-4 lg:mb-6 uppercase tracking-wider">
+              {t("getInTouch")}
+            </h3>
+            <div className="space-y-4 lg:space-y-5">
+              
+              {/* Email */}
+              <div>
+                <span className="block font-semibold text-white text-xs sm:text-sm mb-1">
+                  {t("email")}
+                </span>
+                <a
+                  href="mailto:info@creativeedigital.com"
+                  className="text-gray-400 text-sm hover:text-[#6EFF33] transition-colors duration-300 break-all"
+                >
+                  info@creativeedigital.com
+                </a>
+              </div>
+
+              {/* Phone */}
+              <div>
+                <span className="block font-semibold text-white text-xs sm:text-sm mb-1">
+                  {t("phone")}
+                </span>
+                <a
+                  href="tel:+966533805593"
+                  className="text-gray-400 text-sm hover:text-[#6EFF33] transition-colors duration-300"
+                >
+                  +966 533805593
+                </a>
+              </div>
+
+              {/* Address */}
+              <div>
+                <span className="block font-semibold text-white text-xs sm:text-sm mb-1">
+                  {t("address")}
+                </span>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Rifah+Ibn+Rafi+Street+Al+Olaya+Riyadh+Saudi+Arabia"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 text-sm hover:text-[#6EFF33] transition-colors duration-300 inline-block"
+                >
+                  Rifah Ibn Rafi Street<br />
+                  Al Olaya, Riyadh<br />
+                  Saudi Arabia
+                </a>
+              </div>
+
             </div>
           </div>
+
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-12 pt-8 border-t border-gray-800">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-400 text-sm">
+        <div className="mt-10 md:mt-12 lg:mt-16 pt-6 md:pt-8 border-t border-white/10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4">
+            <p className="text-gray-500 text-xs sm:text-sm text-center md:text-left">
               © {new Date().getFullYear()} CreativeDigital. {t("allRightsReserved")}
             </p>
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-500 text-xs sm:text-sm text-center md:text-right">
               {t("developedBy")}{' '}
               <a
                 href="https://www.imadkhan.online"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent hover:text-green-400 transition-colors duration-300 font-medium"
+                className="text-[#6EFF33] hover:text-[#5EEF23] transition-colors duration-300 font-semibold"
               >
                 Imad Hussain Khan
               </a>
             </p>
           </div>
         </div>
+
       </div>
     </footer>
   );

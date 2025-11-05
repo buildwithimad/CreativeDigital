@@ -94,10 +94,10 @@ const handleSubmit = async (e) => {
                 <Mail className="w-5 h-5 text-[#6EFF33]" />
               </div>
               <a
-                href="mailto:hello@creativeedigital.com"
+                href="mailto:info@creativeedigital.com"
                 className="text-gray-200 hover:text-[#6EFF33] transition-colors"
               >
-                hello@creativeedigital.com
+                info@creativeedigital.com
               </a>
             </div>
           </ScrollBasedAnimation>
@@ -108,10 +108,10 @@ const handleSubmit = async (e) => {
                 <Phone className="w-5 h-5 text-[#6EFF33]" />
               </div>
               <a
-                href="tel:+15551234567"
+                href="tel:+966533805593"
                 className="text-gray-200 hover:text-[#6EFF33] transition-colors"
               >
-                +1 (555) 123-4567
+                +966 533805593
               </a>
             </div>
           </ScrollBasedAnimation>
@@ -121,9 +121,14 @@ const handleSubmit = async (e) => {
               <div className="p-3 border border-[#6EFF33] rounded-full">
                 <MapPin className="w-5 h-5 text-[#6EFF33]" />
               </div>
-              <p className="text-gray-200">
-                123 Creative Street, Design City, DC 12345
-              </p>
+              <a
+              href="https://www.google.com/maps/search/?api=1&query=Rifah+Ibn+Rafi+Street+Al+Olaya+Riyadh+Saudi+Arabia"
+                  target="_blank"
+                  rel="noopener noreferrer"
+              className="text-gray-400 text-sm hover:text-[#6EFF33] transition-colors duration-300 inline-block">
+                Rifah Ibn Rafi Street, Al Olaya, <br />
+                Riyadh, Saudi Arabia
+              </a>
             </div>
           </ScrollBasedAnimation>
         </div>

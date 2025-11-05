@@ -14,7 +14,7 @@ const isRTL = i18n.language === 'ar';
       {/* Fixed Video Background */}
       <video
         className="fixed top-0 left-0 w-full h-full object-cover z-0"
-        src="https://www.pexels.com/download/video/3129957/"
+        src="https://res.cloudinary.com/ddpamvx3l/video/upload/v1762354614/Hero_Website_1_qzjbww.mp4"
         autoPlay
         loop
         muted

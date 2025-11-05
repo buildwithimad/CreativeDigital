@@ -1,30 +1,30 @@
 import HomeClient from './HomeClient';
 
 export const metadata = {
-  title: "CreativeDigital - Digital Solutions & Web Development",
-  description: "Professional digital marketing, web development, and creative solutions. Transform your business with our expert team of designers and developers.",
-  keywords: ["web development", "digital marketing", "UI/UX design", "graphic design", "e-commerce", "SEO", "تطوير مواقع", "تسويق رقمي", "تصميم واجهات", "تصميم جرافيك", "تجارة إلكترونية", "تحسين محركات البحث"],
+  title: "CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب",
+  description: "الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال: تصميم واجهات المستخدم، تصميم جرافيك، تطوير التجارة الإلكترونية، وتحسين محركات البحث. اكتشف أعمالنا المتميزة في المدونات وتواصل معنا لتحويل أعمالك.",
+  keywords: ["الرئيسية", "تطوير مواقع", "تسويق رقمي", "الخدمات", "أعمالنا", "المدونات", "اتصل", "تصميم واجهات", "تصميم جرافيك", "تجارة إلكترونية", "تحسين محركات البحث"],
   openGraph: {
-    title: "CreativeDigital - Digital Solutions & Web Development",
-    description: "Professional digital marketing, web development, and creative solutions.",
+    title: "CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب",
+    description: "الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال.",
     type: "website",
-    locale: "en_US",
-    alternateLocale: "ar_SA",
+    locale: "ar_SA",
+    alternateLocale: "en_US",
   },
   twitter: {
     card: 'summary_large_image',
-    title: "CreativeDigital - Digital Solutions & Web Development",
-    description: "Professional digital marketing, web development, and creative solutions.",
+    title: "CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب",
+    description: "الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال.",
   },
   alternates: {
     canonical: '/',
   },
   other: {
     // Arabic metadata
-    'og:title:ar': 'CreativeDigital - حلول رقمية وتطوير مواقع',
-    'og:description:ar': 'تسويق رقمي احترافي، تطوير مواقع، وحلول إبداعية. حوّل أعمالك مع فريقنا المتخصص من المصممين والمطورين.',
-    'twitter:title:ar': 'CreativeDigital - حلول رقمية وتطوير مواقع',
-    'twitter:description:ar': 'تسويق رقمي احترافي، تطوير مواقع، وحلول إبداعية.',
+    'og:title:ar': 'CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب',
+    'og:description:ar': 'الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال: تصميم واجهات المستخدم، تصميم جرافيك، تطوير التجارة الإلكترونية، وتحسين محركات البحث. اكتشف أعمالنا المتميزة في المدونات وتواصل معنا لتحويل أعمالك.',
+    'twitter:title:ar': 'CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب',
+    'twitter:description:ar': 'الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال.',
   },
 };
 
