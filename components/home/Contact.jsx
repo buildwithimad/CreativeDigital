@@ -94,10 +94,10 @@ const handleSubmit = async (e) => {
                 <Mail className="w-5 h-5 text-[#6EFF33]" />
               </div>
               <a
-                href="mailto:hello@creativedigital.com"
+                href="mailto:hello@creativeedigital.com"
                 className="text-gray-200 hover:text-[#6EFF33] transition-colors"
               >
-                hello@creativedigital.com
+                hello@creativeedigital.com
               </a>
             </div>
           </ScrollBasedAnimation>

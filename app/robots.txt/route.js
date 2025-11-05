@@ -14,7 +14,7 @@ Disallow: /_next/
 Disallow: /static/
 
 # Sitemap location
-Sitemap: https://creativedigital.vercel.app/sitemap.xml
+Sitemap: https://www.creativeedigital.com/sitemap.xml
 
 # Crawl delay (optional)
 Crawl-delay: 1

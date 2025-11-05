@@ -11,10 +11,10 @@ const montserrat = Montserrat({
 
 export const metadata = {
   title: {
-    default: "CreativeDigital - Digital Solutions & Web Development",
+    default: "CreativeDigital — حلول رقمية وتطوير الويب",
     template: "%s | CreativeDigital"
   },
-  description: "Professional digital marketing, web development, and creative solutions. Transform your business with our expert team of designers and developers.",
+  description: "تسويق رقمي احترافي، تطوير مواقع، وحلول إبداعية. حوّل أعمالك مع فريقنا المتخصص من المصممين والمطورين.",
   keywords: ["web development", "digital marketing", "UI/UX design", "graphic design", "e-commerce", "SEO", "تطوير مواقع", "تسويق رقمي", "تصميم واجهات", "تصميم جرافيك", "تجارة إلكترونية", "تحسين محركات البحث"],
   authors: [{ name: "CreativeDigital Team" }],
   creator: "CreativeDigital",
@@ -24,7 +24,7 @@ export const metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://creativedigital.vercel.app'),
+  metadataBase: new URL('https://www.creativeedigital.com'),
   alternates: {
     canonical: '/',
   },

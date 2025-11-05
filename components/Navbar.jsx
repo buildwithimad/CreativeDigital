@@ -74,7 +74,6 @@ const Navbar = () => {
                 </Link>
               ))}
               <LanguageSwitcher />
-
             </div>
           
           </ScrollBasedAnimation>

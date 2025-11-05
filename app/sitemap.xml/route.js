@@ -1,6 +1,6 @@
 export async function GET() {
   // Base URL - replace with your actual domain
-  const baseUrl = 'https://creativedigital.vercel.app';
+  const baseUrl = 'https://www.creativeedigital.com';
 
   // Static pages that exist in both languages
   const staticPages = [

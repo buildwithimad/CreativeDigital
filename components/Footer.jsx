@@ -72,7 +72,7 @@ const Footer = () => {
             <div className="space-y-3">
               <p className="text-gray-300 text-sm">
                 <span className="block font-medium text-white">{t("email")}</span>
-                hello@creativedigital.com
+                hello@creativeedigital.com
               </p>
               <p className="text-gray-300 text-sm">
                 <span className="block font-medium text-white">{t("phone")}</span>
