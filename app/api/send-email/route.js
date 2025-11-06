@@ -126,7 +126,7 @@ export async function POST(req) {
             </div>
 
             <div class="footer">
-              <p>This message was sent from the <span class="accent">CreativeDigital</span> contact form</p>
+              <p>This message was sent from the <span class="accent">Creativedigital</span> contact form</p>
             </div>
           </div>
         </body>
