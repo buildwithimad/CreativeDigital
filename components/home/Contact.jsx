@@ -49,7 +49,7 @@ const handleSubmit = async (e) => {
 
 
   return (
-    <section className=" items-stretch min-h-screen max-w-[1400px] mx-auto bg-white relative z-30">
+    <section className=" items-stretch min-h-screen w-full mx-auto bg-white relative z-30">
 
       {/* Header */}
       <div className="text-center w-full px-4 sm:px-6 md:px-8 lg:px-16 xl:px-20 py-12 md:py-16 lg:py-20 bg-black">
@@ -72,7 +72,7 @@ const handleSubmit = async (e) => {
         </ScrollBasedAnimation>
       </div>
 
-<div className='flex flex-col md:flex-row items-stretch min-h-screen max-w-[1400px] mx-auto bg-white relative z-30'>
+<div className='flex flex-col md:flex-row items-stretch min-h-screen w-full mx-auto bg-white relative z-30'>
    {/* Left Column – Contact Info */}
       <div className="lg:w-1/2 w-full bg-black text-white flex flex-col justify-center px-8 md:px-12 lg:px-16 xl:px-20 py-16">
         <ScrollBasedAnimation direction="right" offset={50}>

@@ -31,7 +31,7 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <section className="relative w-full z-30 bg-black/70 py-20 max-w-[1400px] mx-auto px-8 md:px-12">
+    <section className="relative w-full z-30 bg-black/70 py-20 w-full mx-auto px-8 md:px-12">
       {/* Heading */}
       <ScrollBasedAnimation direction="up" offset={50}>
         <div className="text-center mb-16">

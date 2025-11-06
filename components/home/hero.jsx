@@ -9,7 +9,7 @@ const isRTL = i18n.language === 'ar';
 
   return (
     <section
-      className={`relative w-full h-[700px] overflow-hidden text-primary`}
+      className={`relative w-full h-[600px] overflow-hidden text-primary`}
     >
       {/* Fixed Video Background */}
       <video
@@ -22,7 +22,7 @@ const isRTL = i18n.language === 'ar';
       />
 
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/50 z-10"></div>
+      <div className="absolute w-full inset-0 bg-black/50 z-10"></div>
 
       {/* Content */}
       <div

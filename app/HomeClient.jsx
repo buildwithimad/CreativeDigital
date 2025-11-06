@@ -1,6 +1,7 @@
 "use client";
 
 import ServicesSection from "../components/home/Services";
+import BlogsSection from "../components/home/Blogs";
 import AboutSection from "../components/home/About";
 import HeroSection from "../components/home/hero";
 import Image from "next/image";
@@ -32,11 +33,12 @@ export default function HomeClient() {
       <HeroSection />
       <AboutSection />
       <ServicesSection />
+      <BlogsSection />
      <TestimonialsSection/>
-     <Work/>
-     <Contact />
-    <CallToAction />
+      <Work/>
+      <Contact />
+     <CallToAction />
 
-    </div>
+     </div>
   );
 }

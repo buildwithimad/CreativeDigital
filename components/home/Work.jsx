@@ -84,7 +84,7 @@ const Work = () => {
   };
 
   return (
-    <section className="py-20 bg-black relative z-30 max-w-[1400px] mx-auto">
+    <section className="py-20 bg-black relative z-30 w-full mx-auto">
       <div className="px-8 md:px-12 lg:px-16 xl:px-20">
        {/* Heading */}
 <ScrollBasedAnimation direction="up" offset={80}>

@@ -61,7 +61,7 @@ const BlogContent = () => {
   };
 
   return (
-    <section className="py-20 max-w-[1400px] mx-auto bg-black relative z-30 px-8 md:px-12">
+    <section className="py-20 w-full mx-auto bg-black relative z-30 px-8 md:px-12">
       <ScrollBasedAnimation direction="up" offset={50}>
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">

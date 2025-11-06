@@ -8,7 +8,7 @@ const AboutUs = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="flex flex-col lg:flex-row items-stretch py-12 lg:py-0 max-w-[1400px] mx-auto bg-black/90 relative z-30">
+    <section className="flex flex-col w-full lg:flex-row items-stretch py-12 lg:py-0 mx-auto bg-black/90 relative z-30">
 
       {/* Left Column */}
       <div className="lg:w-1/2 w-full px-8 md:px-12 lg:px-16 xl:px-20 flex flex-col justify-center">
