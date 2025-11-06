@@ -13,7 +13,7 @@ export async function POST(req) {
     }
 
     await resend.emails.send({
-      from: 'Creative Digital <onboarding@resend.dev>', // or your verified domain later
+      from: 'Creativedigital <onboarding@resend.dev>', // or your verified domain later
       to: 'creativemarkimad@gmail.com', // ← change this to your receiving email
       subject: subject || `New message from ${name}`,
       html: `

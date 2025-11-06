@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Twitter, Linkedin, Instagram, Facebook } from 'lucide-react';
+import { FaTiktok } from "react-icons/fa";
 import { useTranslation } from 'react-i18next';
 import Image from "next/image";
 
@@ -37,10 +38,11 @@ const Footer = () => {
             {/* Social Icons */}
             <div className="flex gap-3">
               {[
-                { href: "https://twitter.com", icon: Twitter, label: "Twitter" },
-                { href: "https://linkedin.com", icon: Linkedin, label: "LinkedIn" },
-                { href: "https://instagram.com", icon: Instagram, label: "Instagram" },
-                { href: "https://facebook.com", icon: Facebook, label: "Facebook" }
+                { href: "https://x.com/CreativeDi91478", icon: Twitter, label: "Twitter" },
+                { href: "https://www.linkedin.com/company/109992491/admin/page-posts/published/?shareMsgArgs=null", icon: Linkedin, label: "LinkedIn" },
+                { href: "https://www.tiktok.com/@creativeedigital?is_from_webapp=1&sender_device=pc", icon: FaTiktok, label: "Tiktok" },
+                { href: "https://www.instagram.com/creativedigital0/", icon: Instagram, label: "Instagram" },
+                { href: "https://www.facebook.com/profile.php?id=61583336764880", icon: Facebook, label: "Facebook" }
               ].map((social, idx) => (
                 <a
                   key={idx}
