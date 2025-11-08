@@ -46,6 +46,7 @@ const AboutUs = () => {
         priority
         style={{ objectFit: 'cover' }}
         className="z-10 brightness-125"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
       />
       {/* Optional overlay if needed */}
       <div className="absolute inset-0 bg-black/40 z-20 pointer-events-none"></div>

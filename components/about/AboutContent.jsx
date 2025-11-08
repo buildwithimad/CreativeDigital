@@ -44,6 +44,7 @@ const AboutUs = () => {
         alt="Company mission image"
         fill
         priority
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
         style={{ objectFit: 'cover' }}
         className="z-10 brightness-125"
       />

@@ -17,6 +17,7 @@ const BlogDetailsHero = ({ blog }) => {
           alt={isArabic ? blog.titleAr : blog.title}
           fill
           style={{ objectFit: 'cover' }}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
           className="opacity-80"
         />
       </div>

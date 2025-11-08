@@ -23,6 +23,7 @@ const BlogCard = ({ blog, index }) => {
               fill
               style={{ objectFit: 'cover' }}
               className="transition-all duration-700 group-hover:scale-110 group-hover:brightness-75"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             {/* Overlay Gradient */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
@@ -116,9 +117,9 @@ const Blogs = () => {
           </ScrollBasedAnimation>
 
           <ScrollBasedAnimation direction="up" offset={50} delay={0.1}>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-tight">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-tight">
               {t("latest")} <span className="text-[#6EFF33] inline-block">{t("blog-post")}</span>
-            </h1>
+            </h2>
           </ScrollBasedAnimation>
 
           <ScrollBasedAnimation direction="up" offset={50} delay={0.2}>

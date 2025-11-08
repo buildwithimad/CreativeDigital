@@ -90,6 +90,7 @@ const BlogContent = () => {
                   alt={isArabic ? blog.titleAr : blog.title}
                   fill
                   style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
                   className="transition-transform duration-300 hover:scale-110"
                 />
                 <div className="absolute top-4 left-4 bg-accent text-black px-3 py-1 rounded-full text-sm font-semibold">

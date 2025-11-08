@@ -44,6 +44,7 @@ const BlogDetailsContent = ({ blog, prevBlog, nextBlog }) => {
                     alt={`Blog extra image ${idx}`}
                     fill
                     className=" object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
                   />
                 </div>
               </div>

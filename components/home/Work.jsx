@@ -113,6 +113,7 @@ const Work = () => {
                   width={500}
                   height={400}
                   className="w-full h-[320px] object-cover transition-transform duration-700 group-hover:scale-110 opacity-90"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-black/50 group-hover:bg-black/70 transition-all duration-500 flex items-center justify-center">
                   <h3 className="text-white text-2xl font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-500">

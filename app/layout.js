@@ -78,6 +78,7 @@ export default function RootLayout({ children }) {
         <meta property="og:description" content="الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال: تصميم واجهات المستخدم، تصميم جرافيك، تطوير التجارة الإلكترونية، وتحسين محركات البحث. اكتشف أعمالنا المتميزة في المدونات وتواصل معنا لتحويل أعمالك." />
         <meta property="og:locale" content="ar_SA" />
         <meta property="og:locale:alternate" content="en_US" />
+
       </head>
       <body className={`${montserrat.variable} antialiased`}>
          {/* ✅ Google Analytics */}
