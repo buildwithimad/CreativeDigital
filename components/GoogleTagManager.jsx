@@ -1,8 +1,9 @@
 "use client";
 import Script from "next/script";
 
-export default function GoogleTagManager() {
-const GTM_ID = process.env.NEXT_GOOGLE_TAG_MANAGER_ID;
+export default function GoogleTagManager({GTM_MEASUREMENT_ID}) {
+if(!GTM_MEASUREMENT_ID) return null;
+
 
   return (
     <>
@@ -13,14 +14,14 @@ const GTM_ID = process.env.NEXT_GOOGLE_TAG_MANAGER_ID;
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
           j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','${GTM_ID}');
+          })(window,document,'script','dataLayer','${GTM_MEASUREMENT_ID}');
         `}
       </Script>
 
       {/* Google Tag Manager (noscript) */}
       <noscript>
         <iframe
-          src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+          src={`https://www.googletagmanager.com/ns.html?id=${GTM_MEASUREMENT_ID}`}
           height="0"
           width="0"
           style={{ display: "none", visibility: "hidden" }}

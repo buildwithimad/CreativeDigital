@@ -14,6 +14,7 @@ const montserrat = Montserrat({
 });
 
 const GA_MEASUREMENT_ID = process.env.NEXT_GOOGLE_ANALYTICS_ID;
+const GTM_MEASUREMENT_ID = process.env.NEXT_GOOGLE_TAG_MANAGER_ID;
 
 export const metadata = {
   title: {
@@ -88,7 +89,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${montserrat.variable} antialiased`}>
          {/* ✅ Google Analytics */}
-         <GoogleTagManager/>
+         <GoogleTagManager GTM_MEASUREMENT_ID={GTM_MEASUREMENT_ID}/>
         <GoogleAnalytics GA_MEASUREMENT_ID={GA_MEASUREMENT_ID} />
         <Navbar />
         <main>{children}</main>
