@@ -7,18 +7,31 @@ import { FaWhatsapp } from "react-icons/fa";
 const SocialLinkButton = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Event Track Function using GTM dataLayer
+  const trackEvent = (eventName) => {
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
+        event: eventName,
+        page_url: window.location.href,
+      });
+      console.log("🔔 Event Tracked:", eventName);
+    }
+  };
+
   const socials = [
     {
       href: "https://wa.me/966533805593",
       icon: FaWhatsapp,
       label: "WhatsApp",
       color: "#25D366",
+      event: "whatsapp_click",
     },
     {
       href: "tel:+966533805593",
       icon: Phone,
       label: "Call",
       color: "#d36d25",
+      event: "call_click",
     },
   ];
 
@@ -37,6 +50,7 @@ const SocialLinkButton = () => {
             href={social.href}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackEvent(social.event)}
             className="group relative w-12 h-12 bg-black flex items-center justify-center transition-all duration-300 overflow-hidden rounded-full"
             style={{
               transitionDelay: isOpen ? `${idx * 50}ms` : "0ms",
