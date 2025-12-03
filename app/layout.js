@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import SocialLinkButton from "@/components/SocialLinkButton";
+import GoogleTagManager from "@/components/GoogleTagManager";
 
 const montserrat = Montserrat({
   weight: ["400", "700"],
@@ -87,6 +88,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${montserrat.variable} antialiased`}>
          {/* ✅ Google Analytics */}
+         <GoogleTagManager/>
         <GoogleAnalytics GA_MEASUREMENT_ID={GA_MEASUREMENT_ID} />
         <Navbar />
         <main>{children}</main>
