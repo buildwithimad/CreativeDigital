@@ -27,7 +27,7 @@ const SocialLinkButton = () => {
       event: "whatsapp_click",
     },
     {
-      href: "tel:+966533805593",
+      href: "tel:+966511267458",
       icon: Phone,
       label: "Call",
       color: "#d36d25",
