@@ -20,7 +20,7 @@ const SocialLinkButton = () => {
 
   const socials = [
     {
-      href: "https://wa.me/966533805593",
+      href: "https://wa.me/966575660213",
       icon: FaWhatsapp,
       label: "WhatsApp",
       color: "#25D366",
