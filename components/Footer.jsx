@@ -38,11 +38,11 @@ const Footer = () => {
             {/* Social Icons */}
             <div className="flex gap-3">
               {[
-                { href: "https://x.com/CreativeDi91478", icon: Twitter, label: "Twitter" },
+                { href: "https://x.com/Creativedi74653", icon: Twitter, label: "Twitter" },
                 { href: "https://www.linkedin.com/company/109992491/admin/page-posts/published/?shareMsgArgs=null", icon: Linkedin, label: "LinkedIn" },
                 { href: "https://www.tiktok.com/@creativeedigital?is_from_webapp=1&sender_device=pc", icon: FaTiktok, label: "Tiktok" },
-                { href: "https://www.instagram.com/creativedigital0/", icon: Instagram, label: "Instagram" },
-                { href: "https://www.facebook.com/profile.php?id=61583336764880", icon: Facebook, label: "Facebook" }
+                { href: "https://www.instagram.com/creativedigitalsa", icon: Instagram, label: "Instagram" },
+                { href: "https://www.facebook.com/CreativeDigitalKSA", icon: Facebook, label: "Facebook" }
               ].map((social, idx) => (
                 <a
                   key={idx}

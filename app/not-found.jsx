@@ -4,6 +4,7 @@ import Link from 'next/link';
 import ScrollBasedAnimation from '../components/ScrollBasedAnimation';
 
 const NotFound = () => {
+
   return (
     <section className="relative w-full min-h-screen bg-secondary overflow-hidden">
       
