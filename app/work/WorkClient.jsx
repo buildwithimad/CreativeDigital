@@ -29,10 +29,9 @@ const PrevArrow = ({ onClick }) => (
   </button>
 );
 
-export default function WorkClient() {
+export default function WorkClient({projects}) {
   const { i18n } = useTranslation();
   const isArabic = i18n.language === 'ar';
-  const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -46,25 +45,9 @@ export default function WorkClient() {
     return () => window.removeEventListener('keydown', handleKey);
   }, []);
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const data = await client.fetch(`*[_type == "work"]{
-          _id,
-          title,
-          titleAr,
-          "thumbnail": thumbnail.asset->url,
-          "gallery": gallery[].asset->url
-        }`);
-        setProjects(data);
-        setTimeout(() => setIsLoading(false), 1200);
-      } catch (err) {
-        console.error('Failed to fetch projects:', err);
-        setIsLoading(false);
-      }
-    };
-    fetchProjects();
-  }, []);
+
+  console.log("All projects:", projects)
+
 
   const sliderSettings = {
     dots: true,
@@ -150,6 +133,9 @@ export default function WorkClient() {
                     <h3 className="text-white text-xl md:text-2xl font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                       {isArabic ? project.titleAr : project.title}
                     </h3>
+                     <p className="text-gray-400 text-sm mt-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-500 delay-75">
+                      {isArabic ? project.descriptionAr : project.description || 'No description available'}
+                    </p>
                     <p className="text-gray-400 text-sm mt-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-500 delay-75">
                       {isArabic ? 'عرض المشروع' : 'View Project'}
                     </p>

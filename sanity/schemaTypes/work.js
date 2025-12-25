@@ -16,6 +16,18 @@ export default {
       validation: Rule => Rule.required(),
     },
     {
+      name: "description",
+      title: "Description (English)",
+      type: "text",
+      validation: Rule => Rule.required(),
+    },
+    {
+      name: "descriptionAr",
+      title: "Description (Arabic)",
+      type: "text",
+      validation: Rule => Rule.required(),
+    },
+    {
       name: "thumbnail",
       title: "Thumbnail",
       type: "image",
