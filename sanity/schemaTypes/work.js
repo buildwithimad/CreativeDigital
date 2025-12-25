@@ -1,6 +1,6 @@
 export default {
   name: "work",
-  title: "work",
+  title: "Work",
   type: "document",
   fields: [
     {
@@ -31,7 +31,7 @@ export default {
       name: "thumbnail",
       title: "Thumbnail",
       type: "image",
-      options: { hotspot: true }, // allows selecting a focal point
+      options: { hotspot: true },
       validation: Rule => Rule.required(),
     },
     {
@@ -41,4 +41,12 @@ export default {
       of: [{ type: "image", options: { hotspot: true } }],
     },
   ],
-};
+
+  preview: {
+    select: {
+      title: "title",
+      subtitle: "description",
+      media: "thumbnail",
+    },
+  },
+}

@@ -33,7 +33,6 @@ export default function WorkClient({projects}) {
   const { i18n } = useTranslation();
   const isArabic = i18n.language === 'ar';
   const [selectedProject, setSelectedProject] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   const closeGallery = () => setSelectedProject(null);
 
@@ -44,9 +43,6 @@ export default function WorkClient({projects}) {
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, []);
-
-
-  console.log("All projects:", projects)
 
 
   const sliderSettings = {
@@ -69,10 +65,6 @@ export default function WorkClient({projects}) {
       <div className="w-2 h-2 bg-gray-600 hover:bg-[#6EFF33] transition-all duration-300 cursor-pointer" />
     ),
   };
-
-  if (isLoading) {
-    return <Loading />;
-  }
 
   if (!projects.length) {
     return <p className="text-white text-center py-20">No projects found.</p>;
@@ -133,12 +125,12 @@ export default function WorkClient({projects}) {
                     <h3 className="text-white text-xl md:text-2xl font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                       {isArabic ? project.titleAr : project.title}
                     </h3>
+                     <p className="text-gray-400 text-sm mt-2 transform translate-y-0 transition-all duration-500">
+                       {isArabic ? project.descriptionAr : project.description || 'No description available'}
+                     </p>
                      <p className="text-gray-400 text-sm mt-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-500 delay-75">
-                      {isArabic ? project.descriptionAr : project.description || 'No description available'}
-                    </p>
-                    <p className="text-gray-400 text-sm mt-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-500 delay-75">
-                      {isArabic ? 'عرض المشروع' : 'View Project'}
-                    </p>
+                       {isArabic ? 'عرض المشروع' : 'View Project'}
+                     </p>
                   </div>
                 </div>
               </ScrollBasedAnimation>
@@ -175,7 +167,10 @@ export default function WorkClient({projects}) {
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
                   {isArabic ? selectedProject.titleAr : selectedProject.title}
                 </h2>
-                <div className="w-16 h-0.5 bg-[#6EFF33]"></div>
+                <div className="w-16 h-0.5 bg-[#6EFF33] mb-4"></div>
+                <p className="text-gray-300 text-lg max-w-2xl leading-relaxed">
+                  {isArabic ? selectedProject.descriptionAr : selectedProject.description}
+                </p>
               </motion.div>
 
               {/* Gallery Slider */}

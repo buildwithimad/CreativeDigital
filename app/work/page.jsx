@@ -1,5 +1,5 @@
-import WorkClient from './WorkClient';
 import { client } from '../../sanity/lib/client';
+import Work from '@/components/work/Work'
 
 export const dynamic = 'force-static';
 
@@ -60,5 +60,5 @@ async function getProjects() {
 
 export default async function WorkPage() {
   const projects = await getProjects();
-  return <WorkClient projects={projects} />;
+  return <Work projects={projects} />;
 }
