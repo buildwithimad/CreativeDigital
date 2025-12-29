@@ -25,6 +25,11 @@ const nextConfig = {
         hostname: 'cdn.sanity.io',
         pathname: '/**',
       },
+      {
+        protocol: "https",
+        hostname: 'images.pexels.com',
+        pathname: '/**'
+      }
     ],
   },
   // Add caching headers

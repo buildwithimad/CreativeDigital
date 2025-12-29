@@ -1,46 +1,76 @@
 'use client';
+
 import React from 'react';
-import ScrollBasedAnimation from '../ScrollBasedAnimation';
-import { useTranslation } from 'react-i18next';
+import ScrollBasedAnimation from '../../components/ScrollBasedAnimation';
+import { usePathname } from 'next/navigation';
+import { ArrowDown } from 'lucide-react';
 
 const ContactHero = () => {
-  const { t } = useTranslation();
+  const pathname = usePathname();
+  const isArabic = pathname?.startsWith('/ar');
 
   return (
-    <section className="relative w-full h-[700px] overflow-hidden text-white">
+    <section
+      className="relative w-full bg-secondary h-[90vh] min-h-screen overflow-hidden text-white"
+      dir={isArabic ? 'rtl' : 'ltr'}
+    >
+      {/* ---------------- 1. FIXED VIDEO BACKGROUND ---------------- */}
+      {/* "fixed" position creates a smooth parallax effect with 0 JS overhead */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <video
+          className="fixed top-0 left-0 w-full h-full object-cover opacity-60"
+          // Swapped for a more abstract/tech "connection" video
+          src="https://www.pexels.com/download/video/8084619/"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      </div>
 
-      {/* Fixed Video Background */}
-      <video
-        className="fixed top-0 left-0 w-full h-full object-cover z-0"
-        src="https://www.pexels.com/download/video/20481078/"
-        autoPlay
-        loop
-        muted
-        playsInline
-      />
+      {/* ---------------- 2. CREATIVE OVERLAYS ---------------- */}
+      
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/50 z-10"></div>
+      {/* ---------------- 3. CONTENT ---------------- */}
+      <div className="relative z-20 h-full max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col justify-end pb-20 md:pb-28">
+        
+      
 
-      {/* Content */}
-      <div className="relative z-20 flex flex-col justify-center items-center md:items-start h-full px-6 md:px-12 py-20 md:py-0 text-center md:text-left max-w-5xl mx-auto">
+        {/* Main Title */}
+        <div className="max-w-6xl">
+          <ScrollBasedAnimation direction="up" delay={0.1}>
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-light tracking-tighter leading-[0.9] mb-8">
+              {isArabic ? (
+                <>لنصنع شيئاً <span className="text-accent block">استثنائياً.</span></>
+              ) : (
+                <>Let’s create <span className="text-accent block md:inline">impact.</span></>
+              )}
+            </h1>
+          </ScrollBasedAnimation>
 
-        {/* Heading */}
-        <ScrollBasedAnimation direction="up" offset={70} delay={0}>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight max-w-3xl md:max-w-4xl">
-            {t("contactUs")}
-          </h1>
-        </ScrollBasedAnimation>
+          <div className="flex flex-col md:flex-row items-end justify-between gap-12 border-t border-white/10 pt-8 mt-8">
+            {/* Description */}
+            <ScrollBasedAnimation direction="up" delay={0.2}>
+              <p className="text-lg md:text-xl text-gray-400 font-light max-w-xl leading-relaxed">
+                {isArabic
+                  ? 'هل لديك فكرة مشروع؟ أم تبحث عن شريك رقمي استراتيجي؟ نحن هنا لتحويل رؤيتك إلى واقع رقمي ملموس.'
+                  : 'Have a project in mind? Or looking for a strategic digital partner? We are here to turn your vision into a digital reality.'}
+              </p>
+            </ScrollBasedAnimation>
 
-        {/* Subheading */}
-        <ScrollBasedAnimation direction="up" offset={70} delay={0.2}>
-          <p className="text-lg sm:text-xl md:text-2xl max-w-3xl mb-4 md:mb-6 opacity-90">
-            {t("contactHeroDesc1")}
-          </p>
-          <p className="text-md sm:text-lg md:text-xl max-w-3xl text-gray-300 leading-relaxed">
-            {t("contactHeroDesc2")}
-          </p>
-        </ScrollBasedAnimation>
+            {/* Scroll Indicator */}
+            <ScrollBasedAnimation direction="up" delay={0.3}>
+              <div className="flex items-center gap-4 group cursor-pointer opacity-60 hover:opacity-100 transition-opacity">
+                <span className="hidden md:block text-xs uppercase tracking-[0.2em]">
+                  {isArabic ? 'تواصل معنا' : 'Get in Touch'}
+                </span>
+                <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-300">
+                  <ArrowDown size={20} className="animate-bounce" />
+                </div>
+              </div>
+            </ScrollBasedAnimation>
+          </div>
+        </div>
 
       </div>
     </section>

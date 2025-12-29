@@ -1,49 +1,134 @@
 'use client';
-import React from 'react';
-import ScrollBasedAnimation from '../ScrollBasedAnimation';
-import { useTranslation } from 'react-i18next';
 
-const BlogHero = () => {
-  const { t } = useTranslation();
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import ScrollBasedAnimation from '../ScrollBasedAnimation';
+import { usePathname } from 'next/navigation';
+import { ArrowUpRight, Mouse } from 'lucide-react';
+import { urlFor } from '@/sanity/lib/image';
+
+const BlogHero = ({ latestBlog }) => {
+  const pathname = usePathname();
+  const isArabic = pathname?.startsWith('/ar');
+
+  if (!latestBlog) return null;
+
+  const date = new Date(latestBlog.publishedAt).toLocaleDateString(
+    isArabic ? 'ar-EG' : 'en-US',
+    { year: 'numeric', month: 'long', day: 'numeric' }
+  );
+
+  // ---------------------------------------------------------
+  // HIGH-QUALITY IMAGE RESOLVER
+  // ---------------------------------------------------------
+  const imageObj = Array.isArray(latestBlog.images)
+    ? latestBlog.images[0]
+    : latestBlog.images;
+
+  let heroImage = '/placeholder.jpg';
+  let blurImage = null;
+
+  if (imageObj?.asset) {
+    heroImage = urlFor(imageObj)
+      .width(3840)
+      .height(2160)
+      .fit('crop')
+      .quality(100)
+      .auto('format')
+      .url();
+
+    try {
+      blurImage = urlFor(imageObj).width(20).quality(20).blur(50).url();
+    } catch (e) {
+      console.warn("Could not generate blur image", e);
+    }
+  }
 
   return (
-    <section className="relative w-full h-[700px] overflow-hidden text-white">
+    <section
+      className="relative w-full h-screen min-h-[800px] overflow-hidden bg-black group"
+      dir={isArabic ? 'rtl' : 'ltr'}
+    >
+      {/* ---------------- BACKGROUND IMAGE ---------------- */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={heroImage}
+          alt={isArabic ? latestBlog.titleAr : latestBlog.title}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 will-change-transform"
+          {...(blurImage && {
+            placeholder: 'blur',
+            blurDataURL: blurImage,
+          })}
+        />
 
-      {/* Fixed Video Background */}
-      <video
-        className="fixed top-0 left-0 w-full h-full object-cover z-0"
-        src="https://www.pexels.com/download/video/3835213/"
-        autoPlay
-        loop
-        muted
-        playsInline
-      />
+        {/* ---------------- OVERLAYS (UPDATED FOR BLACK CONTRAST) ---------------- */}
+        
+        {/* 1. Base Dark Tint: Generally darkens the whole image so white text is readable anywhere */}
+        <div className="absolute inset-0 bg-[#06091c]/40 z-10" />
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/50 z-10"></div>
+        {/* 2. Bottom Fade: Solid black fade from bottom up. Ensures text area is always readable. */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#06091c] via-black/50 to-transparent z-10" />
+        
+        {/* 3. Vignette: Darkens edges to focus eyes on center/text */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.6)_100%)] z-10" />
+      </div>
 
-      {/* Content */}
-      <div className="relative z-20 flex flex-col justify-center items-center md:items-start h-full px-6 md:px-12 py-20 md:py-0 text-center md:text-left max-w-5xl mx-auto">
+      {/* ---------------- CONTENT ---------------- */}
+      <div className="relative z-20 h-full max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col justify-end pb-20 md:pb-28">
+        <div className="flex flex-col md:flex-row items-end justify-between gap-12">
 
-        {/* Heading */}
-        <ScrollBasedAnimation direction="up" offset={70} delay={0}>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight max-w-3xl md:max-w-4xl">
-            {t("ourBlog")}
-          </h1>
-        </ScrollBasedAnimation>
+          {/* TEXT CONTENT */}
+          <div className="max-w-4xl w-full">
+            <ScrollBasedAnimation direction="up" delay={0.1}>
+              <div className="flex items-center gap-4 text-accent mb-8">
+                <span className="h-[2px] w-12 bg-accent" />
+                <span className="uppercase tracking-[0.2em] text-xs font-bold shadow-black drop-shadow-md">
+                  {isArabic ? 'أحدث مقال' : 'LATEST INSIGHT'} • {date}
+                </span>
+              </div>
+            </ScrollBasedAnimation>
 
-        {/* Subheading */}
-        <ScrollBasedAnimation direction="up" offset={70} delay={0.2}>
-          <p className="text-lg sm:text-xl md:text-2xl max-w-3xl mb-4 md:mb-6 opacity-90">
-            {t("blogHeroDesc1")}
-          </p>
-          <p className="text-md sm:text-lg md:text-xl max-w-3xl text-gray-300 leading-relaxed">
-            {t("blogHeroDesc2")}
-          </p>
-        </ScrollBasedAnimation>
+            <ScrollBasedAnimation direction="up" delay={0.2}>
+              <h1 className="text-4xl md:text-7xl font-light text-white leading-[0.9] mb-8 tracking-tighter drop-shadow-lg">
+                {isArabic ? latestBlog.titleAr : latestBlog.title}
+              </h1>
+            </ScrollBasedAnimation>
 
+            <ScrollBasedAnimation direction="up" delay={0.4}>
+              <Link
+                href={
+                  isArabic
+                    ? `/ar/blogs/${latestBlog.slug}`
+                    : `/en/blogs/${latestBlog.slug}`
+                }
+                className="group/btn inline-flex items-center gap-6"
+              >
+                {/* Button background made slightly darker/more blurred for contrast */}
+                <div className="h-14 px-8 border border-white/20 hover:border-accent bg-black/40 backdrop-blur-md rounded-full text-white flex items-center justify-center uppercase tracking-widest text-sm font-medium transition-all duration-300 group-hover/btn:bg-accent group-hover/btn:text-black group-hover/btn:border-accent">
+                  {isArabic ? 'اقرأ المقال كاملاً' : 'Read Full Article'}
+                </div>
 
+                <div className="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center text-white group-hover/btn:scale-110 group-hover/btn:border-accent group-hover/btn:text-accent transition-all duration-300 bg-black/20 backdrop-blur-sm">
+                  <ArrowUpRight size={24} className={isArabic ? 'rotate-180' : ''} />
+                </div>
+              </Link>
+            </ScrollBasedAnimation>
+          </div>
 
+          {/* SCROLL INDICATOR */}
+          <div className="hidden md:flex flex-col items-center gap-4 text-white/50 animate-pulse pb-4">
+            <span className="text-[10px] uppercase tracking-widest -rotate-90 origin-center translate-y-8 drop-shadow-md">
+              {isArabic ? 'تصفح' : 'Scroll'}
+            </span>
+            <Mouse size={28} className="text-accent drop-shadow-md" />
+            <div className="w-[1px] h-12 bg-gradient-to-b from-accent to-transparent" />
+          </div>
+
+        </div>
       </div>
     </section>
   );

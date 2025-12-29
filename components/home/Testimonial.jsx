@@ -1,17 +1,21 @@
 'use client';
+
 import React, { useState, useEffect } from 'react';
-import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Star, Quote } from 'lucide-react';
 import ScrollBasedAnimation from '../ScrollBasedAnimation';
 import { client } from '../../sanity/lib/client';
 import { groq } from 'next-sanity';
-import { useTranslation } from 'react-i18next';
+import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 
 const Testimonials = () => {
-  const { t, i18n } = useTranslation();
-  const isArabic = i18n.language === 'ar';
+  const pathname = usePathname();
+  const isArabic = pathname?.startsWith('/ar');
+
   const [testimonialsData, setTestimonialsData] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // FETCH DATA
   useEffect(() => {
     const fetchTestimonials = async () => {
       const testimonialsQuery = groq`
@@ -24,9 +28,7 @@ const Testimonials = () => {
           feedback,
           feedbackAr,
           image{
-            asset->{
-              url
-            }
+            asset->{ url }
           },
           rating
         }
@@ -36,142 +38,159 @@ const Testimonials = () => {
         const data = await client.fetch(testimonialsQuery);
         setTestimonialsData(data);
       } catch (error) {
-        console.error("❌ Error fetching testimonials:", error);
+        console.error('❌ Error fetching testimonials:', error);
       }
     };
 
     fetchTestimonials();
   }, []);
 
-
-
-  // Auto-slide functionality
+  // AUTO SLIDE
   useEffect(() => {
     if (testimonialsData.length > 1) {
       const interval = setInterval(() => {
-        setCurrentIndex((prevIndex) =>
-          prevIndex === testimonialsData.length - 1 ? 0 : prevIndex + 1
+        setCurrentIndex((prev) =>
+          prev === testimonialsData.length - 1 ? 0 : prev + 1
         );
-      }, 5000);
+      }, 6000); // Slightly slower for better readability of large text
 
       return () => clearInterval(interval);
     }
   }, [testimonialsData.length]);
 
-  const goToPrevious = () => {
-    setCurrentIndex(currentIndex === 0 ? testimonialsData.length - 1 : currentIndex - 1);
-  };
+  const goToSlide = (index) => setCurrentIndex(index);
 
-  const goToNext = () => {
-    setCurrentIndex(currentIndex === testimonialsData.length - 1 ? 0 : currentIndex + 1);
-  };
-
-  const goToSlide = (index) => {
-    setCurrentIndex(index);
-  };
+  // DESIGN CONSTANTS
+  const borderGradientHorizontal = "bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-purple-500/20"; 
+  const borderGradientVertical = "bg-gradient-to-b from-purple-500/20 via-blue-500/20 to-purple-500/20"; 
 
   return (
-    <section className="py-16 sm:py-20 lg:py-32 bg-black/90 relative overflow-hidden">
-      {/* Header */}
-      <div className="text-center px-4 sm:px-6 md:px-8 lg:px-16 xl:px-20 mb-12">
-        <ScrollBasedAnimation direction="up" offset={50} delay={0}>
-          <span className="text-primary text-sm sm:text-base font-bold tracking-widest uppercase mb-2 inline-block">
-            {t("testimonials")}
-          </span>
-        </ScrollBasedAnimation>
-
-        <ScrollBasedAnimation direction="up" offset={50} delay={0.1}>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary tracking-tight">
-            {t("whatOurClientsSay")}
-          </h1>
-        </ScrollBasedAnimation>
-
-        <ScrollBasedAnimation direction="up" offset={50} delay={0.2}>
-          <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mt-4">
-            {t("testimonialsDescription")}
-          </p>
-        </ScrollBasedAnimation>
+    <section className="relative w-full py-20 lg:py-32 bg-secondary text-white overflow-hidden" dir={isArabic ? 'rtl' : 'ltr'}>
+      
+      {/* Background Ambience */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-purple-900/10 rounded-full blur-[120px]" />
+        <div className="absolute top-[20%] left-[-10%] w-[400px] h-[400px] bg-blue-900/10 rounded-full blur-[100px]" />
       </div>
 
-      {/* Testimonials Carousel */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8 lg:px-16 relative">
-        {testimonialsData.length === 0 ? (
-          <div className="text-center">
-            <ScrollBasedAnimation direction="up" offset={50} delay={0.3}>
-              <p className="text-gray-300 text-lg md:text-xl">
-                {t("noReviewsYet")}
-              </p>
-            </ScrollBasedAnimation>
-          </div>
-        ) : (
-          <>
-            {/* Main Testimonial Card */}
-            <div className="relative overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 relative z-10">
+        
+        {/* HEADER SECTION */}
+        <div className="mb-16 md:mb-24 px-4 sm:px-0">
+          <ScrollBasedAnimation direction="up">
+            <p className="text-sm md:text-base text-white/60 mb-4 tracking-wider uppercase">
+              {isArabic ? "آراء العملاء" : "Testimonials"}
+            </p>
+            <h2 className="text-4xl md:text-6xl font-light max-w-4xl leading-tight text-white">
+              {isArabic ? "قصص" : "Stories of "} <span className="text-accent">{isArabic ? "النجاح" : "Success"}</span>
+            </h2>
+          </ScrollBasedAnimation>
+        </div>
+
+        {/* MAIN TESTIMONIAL GRID FRAME */}
+        <div className="relative w-full max-w-5xl mx-auto mt-12">
+          
+          {/* 1. FRAME BORDERS (The "Laser Grid") */}
+          <div className={`absolute top-0 left-0 w-full h-[1px] ${borderGradientHorizontal} z-20`} />
+          <div className={`absolute bottom-0 left-0 w-full h-[1px] ${borderGradientHorizontal} z-20`} />
+          <div className={`absolute top-0 left-0 h-full w-[1px] ${borderGradientVertical} z-20`} />
+          <div className={`absolute top-0 right-0 h-full w-[1px] ${borderGradientVertical} z-20`} />
+
+          {/* 2. THE SLIDER CONTAINER */}
+          <div className="relative overflow-hidden min-h-[400px] md:min-h-[450px] flex items-center">
+            
+            {/* Ambient Glow inside the card */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-purple-600/10 rounded-full blur-[80px] pointer-events-none z-0" />
+
+            {testimonialsData.length === 0 ? (
+              <div className="w-full text-center text-white/40 p-12">
+                {isArabic ? 'لا توجد مراجعات بعد' : 'No reviews yet'}
+              </div>
+            ) : (
+              // SLIDING TRACK
               <div
-                className="flex transition-transform duration-500 ease-in-out"
-                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+                className="flex w-full transition-transform duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
+                style={{ transform: isArabic ? `translateX(${currentIndex * 100}%)` : `translateX(-${currentIndex * 100}%)` }}
               >
                 {testimonialsData.map((testimonial, index) => (
-                  <div key={testimonial._id || index} className="w-full flex-shrink-0">
-                    <ScrollBasedAnimation direction="up" offset={50} delay={0.1}>
-                      <div className="bg-[#0a0a0a] border-2 border-[#1a1a1a] p-8 md:p-12 mx-auto max-w-2xl">
-                        {/* Header with User Info */}
-                        <div className={`flex items-start gap-4 mb-6 pb-6 border-b-2 border-[#1a1a1a] ${isArabic ? 'flex-row-reverse' : ''}`}>
-                          <img
-                            src={testimonial.image?.asset?.url || '/placeholder.jpg'}
-                            alt={isArabic ? testimonial.nameAr : testimonial.name}
-                            className="w-12 h-12 object-cover"
-                            style={{ clipPath: 'circle(50%)' }}
-                          />
-                          <div className="flex-1">
-                            <h4 className="text-white font-semibold text-lg">{isArabic ? (testimonial.nameAr || testimonial.name) : testimonial.name}</h4>
-                            <p className="text-gray-400 text-sm mt-1">{isArabic ? (testimonial.roleAr || testimonial.role) : testimonial.role}</p>
-                          </div>
-                          {/* Rating */}
-                          <div className="flex items-center gap-1">
-                            {Array.from({ length: testimonial.rating }).map((_, i) => (
-                              <Star key={i} className="w-4 h-4 text-[#6EFF33] fill-current" />
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Feedback */}
-                        <blockquote className={`text-gray-300 text-base md:text-lg leading-relaxed ${isArabic ? 'text-right' : 'text-left'}`}>
-                          {isArabic ? (testimonial.feedbackAr || testimonial.feedback) : testimonial.feedback}
-                        </blockquote>
-
-                        {/* Google-like timestamp */}
-                        <div className="mt-6 pt-6 border-t-2 border-[#1a1a1a]">
-                          <p className="text-gray-500 text-xs">{t("verifiedReview")}</p>
-                        </div>
+                  <div key={testimonial._id || index} className="w-full flex-shrink-0 p-8 md:p-16 relative z-10">
+                    
+                    <div className="flex flex-col h-full justify-between gap-8 md:gap-12">
+                      
+                      {/* Quote Icon */}
+                      <div className="text-purple-400 opacity-50">
+                        <Quote size={40} className={isArabic ? "transform scale-x-[-1]" : ""} />
                       </div>
-                    </ScrollBasedAnimation>
+
+                      {/* The Quote */}
+                      <blockquote className="relative">
+                        <p className={`text-2xl md:text-4xl font-light leading-relaxed text-white/90 ${isArabic ? 'text-right' : 'text-left'}`}>
+                          "{isArabic ? testimonial.feedbackAr || testimonial.feedback : testimonial.feedback}"
+                        </p>
+                      </blockquote>
+
+                      {/* Author Info & Rating */}
+                      <div className={`flex flex-col md:flex-row gap-6 items-center ${isArabic ? 'md:flex-row-reverse' : ''} border-t border-white/10 pt-8`}>
+                        
+                        {/* Avatar */}
+                        <div className="relative w-16 h-16 rounded-full overflow-hidden border border-white/20">
+                           <Image 
+                             src={testimonial.image?.asset?.url || '/placeholder.jpg'} 
+                             alt={isArabic ? testimonial.nameAr : testimonial.name}
+                             fill
+                             className="object-cover"
+                           />
+                        </div>
+
+                        {/* Name/Role */}
+                        <div className={`text-center ${isArabic ? 'md:text-right' : 'md:text-left'} flex-1`}>
+                          <h4 className="text-lg font-medium text-white tracking-wide">
+                            {isArabic ? testimonial.nameAr || testimonial.name : testimonial.name}
+                          </h4>
+                          <p className="text-sm text-accent mt-1 uppercase tracking-widest">
+                            {isArabic ? testimonial.roleAr || testimonial.role : testimonial.role}
+                          </p>
+                        </div>
+
+                        {/* Stars */}
+                        <div className="flex gap-1">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <Star 
+                              key={i} 
+                              size={16}
+                              className={`${i < testimonial.rating ? 'text-accent fill-accent' : 'text-white/10'} transition-colors`} 
+                            />
+                          ))}
+                        </div>
+
+                      </div>
+
+                    </div>
                   </div>
                 ))}
               </div>
-            </div>
-
-           
-
-            {/* Dots Indicator */}
-            {testimonialsData.length > 1 && (
-              <div className="flex justify-center gap-3 mt-8">
-                {testimonialsData.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToSlide(index)}
-                    className={`w-2 h-2 transition-all duration-300 ${
-                      index === currentIndex
-                        ? 'bg-[#6EFF33] w-8'
-                        : 'bg-gray-600 hover:bg-gray-500'
-                    }`}
-                    aria-label={`Go to testimonial ${index + 1}`}
-                  />
-                ))}
-              </div>
             )}
-          </>
+          </div>
+        </div>
+
+        {/* NAVIGATION DOTS */}
+        {testimonialsData.length > 1 && (
+          <div className="flex justify-center gap-4 mt-12">
+            {testimonialsData.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`h-1 rounded-full transition-all duration-500 ${
+                  index === currentIndex
+                    ? 'bg-accent w-12'
+                    : 'bg-white/20 w-4 hover:bg-white/40'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
         )}
+
       </div>
     </section>
   );

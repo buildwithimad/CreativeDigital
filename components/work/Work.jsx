@@ -1,215 +1,266 @@
 'use client';
+
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import Slider from 'react-slick';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, ArrowUpRight, Maximize2 } from 'lucide-react';
 import ScrollBasedAnimation from '../../components/ScrollBasedAnimation';
-import WorkHero from '../../components/work/WorkHero';
-import Loading from '../../components/Loading';
-import { client } from '../../sanity/lib/client';
-import { urlFor } from '../../sanity/lib/image';
-import { useTranslation } from 'react-i18next';
+import { usePathname } from 'next/navigation';
+import { urlFor } from '@/sanity/lib/image';
+import dynamic from 'next/dynamic';
 
-const NextArrow = ({ onClick }) => (
-  <button 
-    onClick={onClick} 
-    className="absolute right-8 top-1/2 -translate-y-1/2 z-20 text-[#6EFF33] hover:text-white transition-colors duration-300 bg-black/80 p-3 border border-[#6EFF33]/30 hover:border-[#6EFF33]"
+/* ---------------- SLIDER (SSR SAFE) ---------------- */
+const Slider = dynamic(() => import('react-slick'), {
+  ssr: false,
+  loading: () => <div className="h-[70vh] flex items-center justify-center text-white/20">Loading Gallery...</div>
+});
+
+/* ---------------- CUSTOM ARROWS ---------------- */
+const NextArrow = ({ onClick, isArabic }) => (
+  <button
+    onClick={onClick}
+    className={`absolute top-1/2 -translate-y-1/2 z-50 p-4 group ${
+      isArabic ? 'left-2 md:left-8' : 'right-2 md:right-8'
+    }`}
   >
-    <ChevronRight size={32} strokeWidth={2.5} />
+    <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center border border-white/10 bg-[#06091c] text-white hover:bg-white hover:text-black transition-all duration-300 shadow-2xl rounded-full">
+      <ChevronRight size={28} className={isArabic ? 'rotate-180' : ''} />
+    </div>
   </button>
 );
 
-const PrevArrow = ({ onClick }) => (
-  <button 
-    onClick={onClick} 
-    className="absolute left-8 top-1/2 -translate-y-1/2 z-20 text-[#6EFF33] hover:text-white transition-colors duration-300 bg-black/80 p-3 border border-[#6EFF33]/30 hover:border-[#6EFF33]"
+const PrevArrow = ({ onClick, isArabic }) => (
+  <button
+    onClick={onClick}
+    className={`absolute top-1/2 -translate-y-1/2 z-50 p-4 group ${
+      isArabic ? 'right-2 md:right-8' : 'left-2 md:left-8'
+    }`}
   >
-    <ChevronLeft size={32} strokeWidth={2.5} />
+    <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center border border-white/10 bg-[#06091c] text-white hover:bg-white hover:text-black transition-all duration-300 shadow-2xl rounded-full">
+      <ChevronLeft size={28} className={isArabic ? 'rotate-180' : ''} />
+    </div>
   </button>
 );
 
-export default function WorkClient({projects}) {
-  const { i18n } = useTranslation();
-  const isArabic = i18n.language === 'ar';
+/* ---------------- MODAL VARIANTS ---------------- */
+const modalVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.3, ease: 'linear' }, // Fast, linear fade is best for modals
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: 0.2 },
+  },
+};
+
+export default function WorkClient({ projects }) {
+  const pathname = usePathname();
+  const isArabic = pathname?.startsWith('/ar');
+
   const [selectedProject, setSelectedProject] = useState(null);
+  const [sliderReady, setSliderReady] = useState(false);
 
-  const closeGallery = () => setSelectedProject(null);
-
+  /* ---------------- LOCK BODY SCROLL ---------------- */
   useEffect(() => {
-    const handleKey = (e) => {
-      if (e.key === 'Escape') closeGallery();
-    };
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+      setSliderReady(false); // Reset slider state on close
+    }
+    return () => (document.body.style.overflow = 'unset');
+  }, [selectedProject]);
+
+  /* ---------------- ESC KEY ---------------- */
+  useEffect(() => {
+    const handleKey = (e) => e.key === 'Escape' && setSelectedProject(null);
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, []);
 
-
   const sliderSettings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 600,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 4000,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    pauseOnHover: true,
-    appendDots: (dots) => (
-      <div className="mt-8">
-        <ul className="!m-0 flex justify-center gap-3">{dots}</ul>
-      </div>
-    ),
-    customPaging: () => (
-      <div className="w-2 h-2 bg-gray-600 hover:bg-[#6EFF33] transition-all duration-300 cursor-pointer" />
-    ),
+    nextArrow: <NextArrow isArabic={isArabic} />,
+    prevArrow: <PrevArrow isArabic={isArabic} />,
+    cssEase: 'cubic-bezier(0.22, 1, 0.36, 1)',
+    lazyLoad: 'ondemand',
   };
 
-  if (!projects.length) {
-    return <p className="text-white text-center py-20">No projects found.</p>;
+  if (!projects?.length) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-secondary text-white">
+        Loading...
+      </div>
+    );
   }
 
   return (
-    <>
-      <WorkHero />
-      
-      {/* Professional Header Section */}
-      <section className="bg-black border-b border-[#6EFF33]/20 py-16 px-8 md:px-12 relative z-30">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight">
-              {isArabic ? 'أعمالنا' : 'Our Work'}
-            </h1>
-            <div className="w-24 h-1 bg-[#6EFF33] mb-6"></div>
-            <p className="text-gray-400 text-lg md:text-xl max-w-3xl leading-relaxed">
-              {isArabic 
-                ? 'استكشف مجموعة مختارة من مشاريعنا المميزة التي تجسد التميز والابتكار في كل تفصيلة'
-                : 'Explore our curated collection of premium projects that embody excellence and innovation in every detail'}
-            </p>
-          </motion.div>
+    <div className="bg-secondary min-h-screen relative selection:bg-accent selection:text-white">
+
+      {/* STATIC NOISE TEXTURE (Premium Feel, 0% CPU Cost) */}
+      <div className="fixed inset-0 opacity-[0.03] pointer-events-none z-0 mix-blend-overlay" 
+           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E")` }} 
+      />
+
+      {/* ---------------- HEADER SECTION ---------------- */}
+      <section className="pt-32 pb-20 px-6 md:px-12 relative z-10" dir={isArabic ? 'rtl' : 'ltr'}>
+        <div className="max-w-[1800px] mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+          
+          <div className="max-w-4xl">
+            <ScrollBasedAnimation direction="up">
+              <div className="flex items-center gap-4 mb-6">
+                
+              </div>
+              
+              <h1 className="text-5xl md:text-8xl font-light text-white tracking-tighter leading-[0.9]">
+                {isArabic ? (
+                  <>أعمالنا <span className="text-accent">المميزة</span></>
+                ) : (
+                  <>Case <span className="text-accent">Studies</span></>
+                )}
+              </h1>
+            </ScrollBasedAnimation>
+          </div>
+
+          <div className="max-w-md hidden md:block pb-2">
+             <ScrollBasedAnimation direction="up" delay={0.2}>
+              <p className="text-gray-400 text-lg leading-relaxed">
+                {isArabic 
+                  ? 'استكشف مجموعة مختارة من مشاريعنا التي تجسد التميز والابتكار في كل تفصيلة.'
+                  : 'Explore a curated collection of our work that embody excellence and innovation in every detail.'}
+              </p>
+            </ScrollBasedAnimation>
+          </div>
+
         </div>
       </section>
 
-      {/* Projects Grid */}
-      <section className="py-20 px-8 md:px-12 bg-black relative z-30">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border border-[#6EFF33]/10">
-            {projects.map((project, index) => (
-              <ScrollBasedAnimation 
-                key={project._id} 
-                direction="up" 
-                offset={80} 
-                delay={index * 0.1}
-              >
-                <div
-                  onClick={() => setSelectedProject(project)}
-                  className="group relative cursor-pointer overflow-hidden border-r border-b border-[#6EFF33]/10 aspect-[4/3]"
-                >
-                  <Image
-                    src={project.thumbnail}
-                    alt={isArabic ? project.titleAr : project.title}
-                    width={600}
-                    height={450}
-                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:brightness-110"
-                  />
-                  
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-60 group-hover:opacity-80 transition-all duration-500"></div>
-                  
-                  <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-                    <div className="w-12 h-0.5 bg-[#6EFF33] mb-3 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
-                    <h3 className="text-white text-xl md:text-2xl font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                      {isArabic ? project.titleAr : project.title}
-                    </h3>
-                     <p className="text-gray-400 text-sm mt-2 transform translate-y-0 transition-all duration-500">
-                       {isArabic ? project.descriptionAr : project.description || 'No description available'}
-                     </p>
-                     <p className="text-gray-400 text-sm mt-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-500 delay-75">
-                       {isArabic ? 'عرض المشروع' : 'View Project'}
-                     </p>
-                  </div>
-                </div>
-              </ScrollBasedAnimation>
-            ))}
-          </div>
-        </div>
-
-        {/* Professional Fullscreen Gallery Modal */}
-        <AnimatePresence>
-          {selectedProject && (
-            <motion.div
-              className="fixed inset-0 bg-black z-60 flex flex-col items-center justify-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, ease: 'easeInOut' }}
+      {/* ---------------- GRID SECTION ---------------- */}
+      <section className="relative z-10" dir={isArabic ? 'rtl' : 'ltr'}>
+        <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full p-6">
+          {projects.map((project, index) => (
+            <ScrollBasedAnimation
+              key={project._id}
+              direction="up"
+              delay={index * 0.05}
+              className="w-full"
             >
-              {/* Close Button */}
-              <button
-                onClick={closeGallery}
-                className="absolute top-8 right-8 text-white hover:text-[#6EFF33] transition-colors duration-300 z-50 bg-black/50 p-3 border border-white/20 hover:border-[#6EFF33]"
-                aria-label="Close Gallery"
+              <div
+                onClick={() => setSelectedProject(project)}
+                className="group relative w-full aspect-[4/3] md:aspect-[4/4] overflow-hidden cursor-pointer bg-secondary"
               >
-                <X size={28} strokeWidth={2.5} />
-              </button>
+                {/* 1. IMAGE LAYER */}
+                <div className="absolute inset-0">
+                  <Image
+                    src={project.thumbnail ? urlFor(project.thumbnail).url() : '/placeholder.jpg'}
+                    alt={isArabic ? project.titleAr : project.title}
+                    fill
+                    className="object-cover transition-transform duration-[1.2s] ease-[0.22,1,0.36,1] group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                </div>
 
-              {/* Project Title */}
-              <motion.div
-                initial={{ y: -30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                className="absolute top-8 left-8 z-50"
-              >
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                
+
+                {/* 3. CONTENT LAYER */}
+                <div className="absolute inset-0 p-8 flex flex-col justify-between z-20">
+                  
+               
+
+                 
+                </div>
+              </div>
+            </ScrollBasedAnimation>
+          ))}
+        </div>
+      </section>
+
+      {/* ---------------- FULLSCREEN MODAL ---------------- */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            variants={modalVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onAnimationComplete={() => setSliderReady(true)}
+            className="fixed inset-0 z-[100] bg-[#050505] flex flex-col"
+            dir={isArabic ? 'rtl' : 'ltr'}
+          >
+            {/* Header */}
+            <div className="flex justify-between items-center p-6 md:p-8 border-b border-white/10 bg-[#050505] z-50">
+              <div>
+                <h2 className="text-2xl md:text-4xl font-medium text-white tracking-tight">
                   {isArabic ? selectedProject.titleAr : selectedProject.title}
                 </h2>
-                <div className="w-16 h-0.5 bg-[#6EFF33] mb-4"></div>
-                <p className="text-gray-300 text-lg max-w-2xl leading-relaxed">
-                  {isArabic ? selectedProject.descriptionAr : selectedProject.description}
-                </p>
-              </motion.div>
+                <span className="text-accent text-xs uppercase tracking-widest mt-1 block">
+                  {isArabic ? 'معرض الصور' : 'Project Gallery'}
+                </span>
+              </div>
 
-              {/* Gallery Slider */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-                className="relative w-full max-w-6xl px-4 mt-24"
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="group flex items-center gap-4 text-white hover:text-accent transition-colors"
               >
-                <Slider {...sliderSettings}>
-                  {selectedProject.gallery.map((img, i) => (
-                    <div key={i} className="flex justify-center px-2">
-                      <div className="relative w-full border border-[#6EFF33]/20">
-                        <Image
-                          src={img}
-                          alt={`${isArabic ? selectedProject.titleAr : selectedProject.title} ${i + 1}`}
-                          width={1400}
-                          height={800}
-                          className="object-contain max-h-[70vh] w-full"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </Slider>
-              </motion.div>
+                <span className="uppercase text-xs tracking-widest hidden md:block opacity-50 group-hover:opacity-100">
+                   {isArabic ? 'إغلاق' : 'Close'}
+                </span>
+                <div className="w-12 h-12 border border-white/20 group-hover:border-accent group-hover:bg-accent group-hover:text-black rounded-full flex items-center justify-center transition-all duration-300">
+                  <X size={20} />
+                </div>
+              </button>
+            </div>
 
-              {/* Image Counter */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="absolute bottom-8 right-8 text-gray-400 text-sm font-mono bg-black/50 px-4 py-2 border border-white/20"
-              >
-                {selectedProject.gallery.length} {isArabic ? 'صور' : 'Images'}
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </section>
-    </>
+            {/* Main Slider Area */}
+            <div className="flex-1 relative flex items-center justify-center bg-[#050505] w-full overflow-hidden">
+               {sliderReady ? (
+                 <div className="w-full h-full max-w-[100%] md:max-w-[90%] max-h-[85vh] py-4">
+                    <Slider key={selectedProject._id} {...sliderSettings} className="h-full work-slider">
+                       {selectedProject.gallery?.map((img, i) => (
+                         <div key={i} className="h-full px-2 outline-none">
+                            <div className="relative w-full h-[60vh] md:h-[75vh] flex items-center justify-center">
+                               <Image
+                                 src={urlFor(img).url()}
+                                 alt="Project Detail"
+                                 fill
+                                 className="object-contain drop-shadow-2xl"
+                                 priority={i === 0}
+                                 quality={90}
+                               />
+                            </div>
+                         </div>
+                       ))}
+                    </Slider>
+                 </div>
+               ) : (
+                 /* Loading State while animation finishes */
+                 <div className="flex flex-col items-center gap-4 text-white/30 animate-pulse">
+                    <div className="w-12 h-12 border-2 border-white/10 border-t-accent rounded-full animate-spin" />
+                    <span className="text-xs uppercase tracking-widest">Loading Gallery...</span>
+                 </div>
+               )}
+            </div>
+
+            {/* Footer */}
+            <div className="p-6 border-t border-white/10 flex justify-center bg-[#050505]">
+                <div className="flex items-center gap-4">
+                     <span className="h-[1px] w-8 bg-white/20" />
+                     <span className="font-mono text-white/40 text-sm">
+                        {selectedProject.gallery?.length || 0} {isArabic ? 'صور' : 'IMAGES'}
+                     </span>
+                     <span className="h-[1px] w-8 bg-white/20" />
+                </div>
+            </div>
+
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }

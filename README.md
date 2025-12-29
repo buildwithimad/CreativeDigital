@@ -23,7 +23,6 @@ Visit us at: [www.creativeedigital.com](https://www.creativeedigital.com)
 - **Framework**: Next.js 16
 - **Styling**: Tailwind CSS
 - **CMS**: Sanity
-- **Internationalization**: react-i18next
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
 - **Email**: Resend

@@ -1,166 +1,235 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ScrollBasedAnimation from '../ScrollBasedAnimation';
 import { client } from '../../sanity/lib/client';
 import { groq } from 'next-sanity';
-import { useTranslation } from 'react-i18next';
+import { usePathname } from 'next/navigation';
+import { ArrowUpRight } from 'lucide-react';
 
-const BlogCard = ({ blog, index }) => {
-  const { i18n } = useTranslation();
-  const isArabic = i18n.language === 'ar';
+/* ================= Gradient Config (Static CSS) ================= */
+const borderGradientHorizontal = "bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-purple-500/20"; 
+const borderGradientVertical = "bg-gradient-to-b from-purple-500/20 via-blue-500/20 to-purple-500/20"; 
 
+/* ================= Blog Card (Optimized) ================= */
+const BlogCard = ({ blog, isArabic }) => {
   return (
-    <ScrollBasedAnimation direction="up" offset={50} delay={0.1 * index}>
-      <Link href={`/blogs/${blog.slug?.current}`} className="block group">
-        <div className="relative overflow-hidden bg-zinc-900/50 border border-zinc-800/50 hover:border-[#6EFF33]/50 transition-all duration-500 h-full">
-          {/* Image Container */}
-          <div className="relative w-full h-64 overflow-hidden bg-zinc-950">
-            <Image
-              src={blog.images?.asset?.url || '/placeholder.jpg'}
-              alt={isArabic ? blog.titleAr : blog.title}
-              fill
-              style={{ objectFit: 'cover' }}
-              className="transition-all duration-700 group-hover:scale-110 group-hover:brightness-75"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-            {/* Overlay Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+    <div className="group relative w-full h-full border-r border-transparent overflow-hidden">
+      
+      {/* 1. Grid Lines (Static - Zero Lag) */}
+      <div className={`absolute top-0 right-0 h-full w-[1px] ${borderGradientVertical} z-20`} />
+      <div className={`absolute bottom-0 left-0 w-full h-[1px] ${borderGradientHorizontal} z-20`} />
+
+      <Link href={`${isArabic ? '/ar' : ''}/blogs/${blog.slug?.current}`} className="block h-full">
+        <div className="h-full min-h-[450px] p-8 md:p-12 flex flex-col relative z-10 transition-colors duration-500 group-hover:bg-white/[0.02]">
+          
+          {/* Image Area - Taller for 2-column layout */}
+          <div className="relative w-full h-80 mb-8 overflow-hidden bg-zinc-900/50">
+              {/* Gradient Overlay for Text Contrast */}
+              <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
+              
+              <Image
+                src={blog.images?.asset?.url || '/placeholder.jpg'}
+                alt={isArabic ? blog.titleAr : blog.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw" // Optimized sizes for 2-col layout
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 will-change-transform"
+                quality={85}
+              />
           </div>
 
-          {/* Content Container */}
-          <div className="p-6 space-y-3">
-            {/* Title */}
-            <h3 className="text-white text-xl font-bold leading-tight line-clamp-2 group-hover:text-[#6EFF33] transition-colors duration-300">
-              {isArabic ? blog.titleAr : blog.title}
-            </h3>
-            
-            {/* Description */}
-            <p className="text-gray-400 text-sm leading-relaxed line-clamp-3">
-              {isArabic ? blog.introductionAr : blog.introduction}
-            </p>
-
-            {/* Read More Indicator */}
-            <div className="flex items-center gap-2 pt-2">
-              <span className="text-[#6EFF33] text-sm font-semibold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-x-2 group-hover:translate-x-0">
-                Read More
+          {/* Content Area */}
+          <div className="flex-grow relative z-20 flex flex-col justify-between" dir={isArabic ? 'rtl' : 'ltr'}>
+            <div>
+              <span className="block text-accent text-xs tracking-widest uppercase mb-4 font-medium">
+                {new Date(blog.publishedAt || Date.now()).toLocaleDateString(isArabic ? 'ar-SA' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
               </span>
-              <svg 
-                className="w-4 h-4 text-[#6EFF33] opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-x-2 group-hover:translate-x-0" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+
+              <h3 className="text-3xl md:text-4xl font-light leading-tight text-white line-clamp-2 transition-transform duration-500 group-hover:-translate-y-1">
+                {isArabic ? blog.titleAr : blog.title}
+              </h3>
+            </div>
+
+            <div className="mt-10 flex items-center gap-3 text-white text-sm uppercase tracking-widest group-hover:text-accent transition-colors duration-300">
+              <span>{isArabic ? 'اقرأ المزيد' : 'Read Article'}</span>
+              <ArrowUpRight className={`w-5 h-5 transition-transform duration-500 ${isArabic ? 'group-hover:-translate-x-1 group-hover:-translate-y-1 rotate-180' : 'group-hover:translate-x-1 group-hover:-translate-y-1'}`} />
             </div>
           </div>
 
-          {/* Top Corner Accent */}
-          <div className="absolute top-0 right-0 w-20 h-20 bg-[#6EFF33]/10 transform translate-x-10 -translate-y-10 rotate-45 group-hover:translate-x-5 group-hover:-translate-y-5 transition-transform duration-500" />
+          {/* Optimized Glow (CSS Gradient) */}
+          <div 
+            className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+            style={{
+              background: 'radial-gradient(circle at 100% 100%, rgba(147, 51, 234, 0.1) 0%, transparent 60%)'
+            }}
+          />
         </div>
       </Link>
-    </ScrollBasedAnimation>
+    </div>
   );
 };
 
-const Blogs = () => {
-  const { t } = useTranslation();
-  const [blogs, setBlogs] = useState([]);
+/* ================= Blogs Section (Carousel) ================= */
 
+const Blogs = () => {
+  const pathname = usePathname();
+  const isArabic = pathname?.startsWith('/ar');
+  const [blogs, setBlogs] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [itemsPerView, setItemsPerView] = useState(1);
+  const timeoutRef = useRef(null);
+
+  // 1. Fetch Data
   useEffect(() => {
     const fetchBlogs = async () => {
       const blogsQuery = groq`
-        *[_type == "blogs"] | order(publishedAt desc)[0...6] {
-          _id,
-          title,
-          titleAr,
-          slug,
-          introduction,
-          introductionAr,
-          images[0]{
-            asset->{
-              url
-            }
-          }
+        *[_type == "blogs"] | order(publishedAt desc)[0...8] { // Limit to 8 for cleaner 2-col loop
+          _id, title, titleAr, slug, publishedAt,
+          images[0]{ asset->{ url } }
         }
       `;
-
       try {
         const data = await client.fetch(blogsQuery);
         setBlogs(data);
       } catch (error) {
-        console.error("❌ Error fetching blogs:", error);
+        console.error('❌ Error fetching blogs:', error);
       }
     };
-
     fetchBlogs();
   }, []);
 
+  // 2. Handle Resize - UPDATED FOR 2 COLUMNS
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setItemsPerView(2); // Desktop & Tablet = 2 Columns
+      } else {
+        setItemsPerView(1); // Mobile = 1 Column
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // 3. Auto Slide Logic
+  useEffect(() => {
+    const resetTimeout = () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+    resetTimeout();
+
+    if (blogs.length > itemsPerView) {
+      timeoutRef.current = setTimeout(() => {
+        setCurrentIndex((prevIndex) => 
+          prevIndex === blogs.length - itemsPerView ? 0 : prevIndex + 1
+        );
+      }, 3500); // Slightly slower for 2-col view to allow reading
+    }
+    return () => resetTimeout();
+  }, [currentIndex, blogs.length, itemsPerView]);
+
   return (
-    <section className="relative py-20 sm:py-24 lg:py-32 bg-black overflow-hidden">
-      {/* Background Grid Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(110,255,51,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(110,255,51,0.03)_1px,transparent_1px)] bg-[size:64px_64px]" />
+    <section className="relative w-full py-20 lg:py-32 bg-secondary overflow-hidden" dir={isArabic ? 'rtl' : 'ltr'}>
 
-      <div className="relative z-10">
+      {/* Background Ambience - Static Gradients */}
+      <div className="absolute inset-0 pointer-events-none">
+         <div 
+           className="absolute top-0 right-0 w-[600px] h-[600px] opacity-10"
+           style={{ background: 'radial-gradient(circle, #1e3a8a 0%, transparent 70%)' }} 
+         />
+         <div 
+           className="absolute bottom-0 left-0 w-[600px] h-[600px] opacity-10"
+           style={{ background: 'radial-gradient(circle, #581c87 0%, transparent 70%)' }} 
+         />
+      </div>
+
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 relative z-10">
+
         {/* Header */}
-        <div className="text-center px-4 sm:px-6 md:px-8 lg:px-16 xl:px-20 mb-16">
-          <ScrollBasedAnimation direction="up" offset={50} delay={0}>
-            <div className="inline-flex items-center gap-3 mb-4">
-              <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#6EFF33]" />
-              <span className="text-[#6EFF33] text-xs sm:text-sm font-bold tracking-[0.3em] uppercase">
-                {t("blogs")}
-              </span>
-              <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#6EFF33]" />
-            </div>
+        <div className="mb-12 md:mb-16 px-4 sm:px-0 flex justify-between items-end">
+          <ScrollBasedAnimation direction="up">
+             <p className="text-sm md:text-base text-white/60 mb-4 tracking-wider uppercase">
+               {isArabic ? "المعرفة والرؤى" : "Knowledge & Insights"}
+             </p>
+             <h2 className="text-4xl md:text-6xl font-light max-w-4xl leading-tight text-white">
+              {isArabic ? (
+                <>آخر <span className="text-accent">تحديثاتنا</span></>
+              ) : (
+                <>Media <span className="text-accent">Center</span></>
+              )}
+             </h2>
           </ScrollBasedAnimation>
 
-          <ScrollBasedAnimation direction="up" offset={50} delay={0.1}>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-tight">
-              {t("latest")} <span className="text-[#6EFF33] inline-block">{t("blog-post")}</span>
-            </h2>
-          </ScrollBasedAnimation>
-
-          <ScrollBasedAnimation direction="up" offset={50} delay={0.2}>
-            <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mt-6 leading-relaxed">
-              {t("blogDescription")}
-            </p>
-          </ScrollBasedAnimation>
-        </div>
-
-        {/* Blogs Grid */}
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-16">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {blogs.map((blog, index) => (
-              <BlogCard key={blog._id} blog={blog} index={index} />
-            ))}
+          {/* Progress Bar */}
+          <div className="hidden md:block w-32 h-[1px] bg-white/10 relative overflow-hidden mb-4 rounded-full">
+             <div 
+               key={currentIndex} 
+               className="absolute top-0 left-0 h-full bg-purple-400 w-full animate-progress origin-left will-change-transform"
+               style={{ 
+                 animationDuration: '3500ms', 
+                 animationTimingFunction: 'linear'
+               }}
+             />
           </div>
         </div>
 
-        {/* View All Button */}
-        <div className="text-center mt-16">
-          <ScrollBasedAnimation direction="up" offset={50}>
-            <Link 
-              href='/blogs' 
-              className="group relative inline-flex items-center gap-3 bg-[#6EFF33] text-black font-bold px-10 py-4 text-base uppercase tracking-wider overflow-hidden transition-all duration-300 hover:bg-transparent hover:text-[#6EFF33] border-2 border-[#6EFF33]"
-            >
-              <span className="relative z-10">{t("viewBlogs")}</span>
-              <svg 
-                className="relative z-10 w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
+        {/* CAROUSEL FRAME */}
+        <div className="relative w-full overflow-hidden border-t border-l border-transparent">
+          
+          {/* Static Frame Borders */}
+          <div className={`absolute top-0 left-0 w-full h-[1px] ${borderGradientHorizontal} z-20`} />
+          <div className={`absolute top-0 left-0 h-full w-[1px] ${borderGradientVertical} z-20`} />
+
+          {/* SLIDING TRACK - Using translate3d for GPU */}
+          <div 
+            className="flex will-change-transform"
+            style={{ 
+              transition: 'transform 1000ms cubic-bezier(0.2, 0.8, 0.2, 1)', 
+              transform: isArabic 
+                ? `translate3d(${currentIndex * (100 / itemsPerView)}%, 0, 0)` 
+                : `translate3d(-${currentIndex * (100 / itemsPerView)}%, 0, 0)` 
+            }}
+          >
+            {blogs.map((blog, index) => (
+              <div 
+                key={blog._id} 
+                className="flex-shrink-0"
+                style={{ width: `${100 / itemsPerView}%` }}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-              
-              {/* Hover Effect Background */}
-              <div className="absolute inset-0 bg-[#6EFF33] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left -z-10" />
-            </Link>
-          </ScrollBasedAnimation>
+                <BlogCard
+                  blog={blog}
+                  isArabic={isArabic}
+                />
+              </div>
+            ))}
+          </div>
+
         </div>
+
+        {/* Mobile: View All Button */}
+        <div className="mt-12 flex justify-center md:hidden">
+          <Link
+            href={`${isArabic ? '/ar' : ''}/blogs`}
+            className="text-white text-sm uppercase tracking-widest border-b border-accent pb-1"
+          >
+             {isArabic ? 'عرض جميع المقالات' : 'View All Articles'}
+          </Link>
+        </div>
+
       </div>
+
+      <style jsx global>{`
+        @keyframes progress {
+          from { transform: scaleX(0); }
+          to { transform: scaleX(1); }
+        }
+        .animate-progress {
+          animation-name: progress;
+        }
+      `}</style>
     </section>
   );
 };

@@ -1,35 +1,6 @@
-import HomeClient from './HomeClient';
+import { redirect } from "next/navigation";
 
-export const dynamic = "force-static";
-
-export const metadata = {
-  title: "CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب",
-  description: "الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال: تصميم واجهات المستخدم، تصميم جرافيك، تطوير التجارة الإلكترونية، وتحسين محركات البحث. اكتشف أعمالنا المتميزة في المدونات وتواصل معنا لتحويل أعمالك.",
-  keywords: ["الرئيسية", "تطوير مواقع", "تسويق رقمي", "الخدمات", "أعمالنا", "المدونات", "اتصل", "تصميم واجهات", "تصميم جرافيك", "تجارة إلكترونية", "تحسين محركات البحث"],
-  openGraph: {
-    title: "CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب",
-    description: "الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال.",
-    type: "website",
-    locale: "ar_SA",
-    alternateLocale: "en_US",
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: "CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب",
-    description: "الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال.",
-  },
-  alternates: {
-    canonical: '/',
-  },
-  other: {
-    // Arabic metadata
-    'og:title:ar': 'CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب',
-    'og:description:ar': 'الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال: تصميم واجهات المستخدم، تصميم جرافيك، تطوير التجارة الإلكترونية، وتحسين محركات البحث. اكتشف أعمالنا المتميزة في المدونات وتواصل معنا لتحويل أعمالك.',
-    'twitter:title:ar': 'CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب',
-    'twitter:description:ar': 'الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال.',
-  },
-};
-
-export default function Home() {
-  return <HomeClient />;
+export default function RootPage() {
+  redirect("/en"); // redirect to English as main language
+  return null;
 }

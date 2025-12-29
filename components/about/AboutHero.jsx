@@ -1,48 +1,95 @@
 'use client';
+
 import React from 'react';
 import ScrollBasedAnimation from '../ScrollBasedAnimation';
-import { useTranslation } from 'react-i18next';
+import { usePathname } from 'next/navigation';
+import { ArrowDown } from 'lucide-react';
+
+const ABOUT_HERO_CONTENT = {
+  en: {
+    label: 'Who We Are',
+    title: 'About CreativeDigital',
+    subtitle: 'Pioneering digital innovation in Saudi Arabia.',
+    description:
+      'We transform ideas into impactful digital experiences. Our mission is to empower businesses with cutting-edge digital solutions that enhance brand presence, drive measurable growth, and create lasting competitive advantages in the marketplace.',
+  },
+  ar: {
+    label: 'من نحن',
+    title: 'عن كريتيف ديجيتال',
+    subtitle: 'نقود الابتكار الرقمي في المملكة العربية السعودية.',
+    description:
+      'نحن نحول الأفكار إلى تجارب رقمية مؤثرة. مهمتنا هي تمكين الشركات بحلول رقمية متقدمة تعزز الحضور التجاري، وتحقق نموًا ملموسًا، وتخلق ميزة تنافسية مستدامة في السوق.',
+  },
+};
 
 const AboutHero = () => {
-  const { t } = useTranslation();
+  const pathname = usePathname();
+  const isArabic = pathname?.startsWith('/ar');
+  const content = isArabic ? ABOUT_HERO_CONTENT.ar : ABOUT_HERO_CONTENT.en;
 
   return (
-    <section className="relative w-full h-[700px] overflow-hidden text-white">
+    <section
+      className="relative bg-secondary w-full min-h-[120vh] flex items-center justify-center overflow-hidden text-white"
+      // This automatically handles the base direction (Left vs Right)
+      dir={isArabic ? 'rtl' : 'ltr'}
+    >
+      {/* --- 1. BACKGROUND VIDEO LAYER --- */}
+      <div className="absolute inset-0 z-0">
+        <video
+          className="w-full h-full object-cover opacity-90"
+          src="https://www.pexels.com/download/video/32880716/"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+        {/* Dark Overlay Gradient for Text Contrast */}
+        <div className="absolute inset-0 bg-black/40 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40 z-10" />
+      </div>
 
-      {/* Fixed Video Background */}
-      <video
-        className="fixed top-0 left-0 w-full h-full object-cover z-0"
-        src="https://www.pexels.com/download/video/3129671/"
-        autoPlay
-        loop
-        muted
-        playsInline
+      {/* --- 2. GRID LINES & TEXTURE --- */}
+      <div 
+        className="absolute inset-0 z-10 opacity-[0.03] pointer-events-none"
+        style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '40px 40px' }}
       />
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/50 z-10"></div>
+      {/* --- 3. MAIN CONTENT FRAME --- */}
+      <div className="relative z-20 w-full max-w-[1400px] px-6 md:px-12 pt-20">
+        
+          
+          <div className="flex flex-col items-start">
+            
+            {/* Massive Title */}
+            <ScrollBasedAnimation direction="up" delay={0.1}>
+              <h1 className="text-4xl md:text-6xl font-light text-white leading-[0.9] tracking-tighter mb-8">
+                {isArabic ? (
+                  <>عن <span className="text-accent">كريتيف</span></>
+                ) : (
+                  <>About <span className="text-accent text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">Creative</span></>
+                )}
+                <br />
+                {isArabic ? "ديجيتال" : "Digital"}
+              </h1>
+            </ScrollBasedAnimation>
 
-      {/* Content */}
-      <div className="relative z-20 flex flex-col justify-center items-center md:items-start h-full px-6 md:px-12 py-20 md:py-0 text-center md:text-left max-w-5xl mx-auto">
+            {/* Subtitle & Description */}
+            <ScrollBasedAnimation direction="up" delay={0.2}>
+              <div className={`
+                max-w-3xl
+              `}>
+                <h2 className="text-xl md:text-2xl text-white font-normal mb-6 leading-relaxed">
+                   {content.subtitle}
+                </h2>
+                <p className="text-white/60 text-lg md:text-xl font-light leading-relaxed">
+                  {content.description}
+                </p>
+              </div>
+            </ScrollBasedAnimation>
 
-        {/* Heading */}
-        <ScrollBasedAnimation direction="up" offset={70} delay={0}>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight max-w-3xl md:max-w-4xl">
-            {t("aboutCreativeDigital")}
-          </h1>
-        </ScrollBasedAnimation>
+          </div>
 
-        {/* Subheading */}
-        <ScrollBasedAnimation direction="up" offset={70} delay={0.2}>
-          <p className="text-lg sm:text-xl md:text-2xl max-w-3xl mb-4 md:mb-6 opacity-90">
-            {t("aboutHeroDesc1")}
-          </p>
-          <p className="text-md sm:text-lg md:text-xl max-w-3xl text-gray-300 leading-relaxed">
-            {t("aboutHeroDesc2")}
-          </p>
-        </ScrollBasedAnimation>
-
-       
+      
 
       </div>
     </section>

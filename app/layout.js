@@ -1,99 +1,30 @@
-import { Montserrat } from "next/font/google";
-import "./globals.css";
+import { Space_Grotesk } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
-import SocialLinkButton from "@/components/SocialLinkButton";
-import GoogleTagManager from "@/components/GoogleTagManager";
+import "../app/globals.css";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
-const montserrat = Montserrat({
-  weight: ["400", "700"],
+
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  display: "swap",
-  variable: "--font-montserrat",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-space-grotesk",
 });
 
-const GA_MEASUREMENT_ID = process.env.NEXT_GOOGLE_ANALYTICS_ID;
-const GTM_MEASUREMENT_ID = process.env.NEXT_GOOGLE_TAG_MANAGER_ID;
-
-export const metadata = {
-  title: {
-    default: "CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب",
-    template: "%s | CreativeDigital"
-  },
-  description: "الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال: تصميم واجهات المستخدم، تصميم جرافيك، تطوير التجارة الإلكترونية، وتحسين محركات البحث. اكتشف أعمالنا المتميزة في المدونات وتواصل معنا لتحويل أعمالك.",
-  keywords: ["web development", "digital marketing", "UI/UX design", "graphic design", "e-commerce", "SEO", "تطوير مواقع", "تسويق رقمي", "تصميم واجهات", "تصميم جرافيك", "تجارة إلكترونية", "تحسين محركات البحث"],
-  authors: [{ name: "CreativeDigital Team" }],
-  creator: "CreativeDigital",
-  publisher: "CreativeDigital",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL('https://www.creativeedigital.com'),
-  alternates: {
-    canonical: '/',
-  },
-  openGraph: {
-    type: 'website',
-    locale: 'ar_SA',
-    alternateLocale: 'en_US',
-    title: "CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب",
-    description: "الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال: تصميم واجهات المستخدم، تصميم جرافيك، تطوير التجارة الإلكترونية، وتحسين محركات البحث. اكتشف أعمالنا المتميزة في المدونات وتواصل معنا لتحويل أعمالك.",
-    siteName: "CreativeDigital",
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: "CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب",
-    description: "الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال: تصميم واجهات المستخدم، تصميم جرافيك، تطوير التجارة الإلكترونية، وتحسين محركات البحث. اكتشف أعمالنا المتميزة في المدونات وتواصل معنا لتحويل أعمالك.",
-    creator: '@CreativeDigital',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  other: {
-    // Arabic metadata
-    'og:title:ar': 'CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب',
-    'og:description:ar': 'الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال: تصميم واجهات المستخدم، تصميم جرافيك، تطوير التجارة الإلكترونية، وتحسين محركات البحث. اكتشف أعمالنا المتميزة في المدونات وتواصل معنا لتحويل أعمالك.',
-    'twitter:title:ar': 'CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب',
-    'twitter:description:ar': 'الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال.',
-  },
-};
-
-export default function RootLayout({ children }) {
+export default function Layout({ children }) {
   return (
-    <html lang="ar" dir="rtl">
-      <head>
-        {/* Arabic SEO Meta Tags */}
-        <meta name="keywords" content="الرئيسية, تطوير مواقع, تسويق رقمي, الخدمات, أعمالنا, المدونات, اتصل, تصميم واجهات, تصميم جرافيك, تجارة إلكترونية, تحسين محركات البحث" />
-
-        {/* Arabic Open Graph */}
-        <meta property="og:title" content="CreativeDigital - الرئيسية | تسويق رقمي وتطوير مواقع الويب" />
-        <meta property="og:description" content="الرئيسية - تسويق رقمي احترافي وتطوير مواقع الويب في الرياض. نقدم الخدمات المتكاملة للأعمال: تصميم واجهات المستخدم، تصميم جرافيك، تطوير التجارة الإلكترونية، وتحسين محركات البحث. اكتشف أعمالنا المتميزة في المدونات وتواصل معنا لتحويل أعمالك." />
-        <meta property="og:locale" content="ar_SA" />
-        <meta property="og:locale:alternate" content="en_US" />
-
-        {/* Preload critical resources */}
-        <link rel="preload" href="/CreativedigitalLogo.png" as="image" />
-        <link rel="preload" href="https://res.cloudinary.com/ddpamvx3l/video/upload/v1762354614/Hero_Website_1_qzjbww.mp4" as="video" />
-
-      </head>
-      <body className={`${montserrat.variable} antialiased`}>
-         {/* ✅ Google Analytics */}
-         <GoogleTagManager GTM_MEASUREMENT_ID={GTM_MEASUREMENT_ID}/>
-        <GoogleAnalytics GA_MEASUREMENT_ID={GA_MEASUREMENT_ID} />
+    <html lang="en">
+      <head />
+      <body
+        className={`
+          ${spaceGrotesk.variable}
+          bg-gray-50 dark:bg-gray-900
+          antialiased
+        `}
+      >
         <Navbar />
-        <main>{children}</main>
-        <SocialLinkButton />
+        {children}
         <Footer />
       </body>
     </html>
