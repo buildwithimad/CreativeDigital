@@ -5,7 +5,7 @@ import WorkContent from '@/components/work/Work'
 import { client } from '@/sanity/lib/client'
 import { WORK_QUERY } from '@/sanity/queries/work'
 
-export const dynamic = 'force-dynamic' // optional (SSG)
+export const revalidate = 60; // ISR – refresh every 1 minutes
 
 const PortfolioPage = async () => {
   const projects = await client.fetch(WORK_QUERY)

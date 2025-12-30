@@ -12,6 +12,8 @@ const HeroSection = dynamic(() => import("@/components/home/hero"));
 const TestimonialsSection = dynamic(() => import("@/components/home/Testimonial"));
 const CallToAction = dynamic(() => import("@/components/home/CallToAction"));
 
+export const revalidate = 60; // ISR – refresh every 1 minutes
+
 export default async function HomeClient() {
 
       const services = await client.fetch(SERVICES_LIST_QUERY);
