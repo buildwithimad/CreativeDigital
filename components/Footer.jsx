@@ -37,8 +37,7 @@ const Footer = () => {
   const t = isArabic ? FOOTER_TEXT.ar : FOOTER_TEXT.en;
 
   // Design Constants
-  const borderGradientHorizontal = "bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-purple-500/20"; 
-
+  const borderGradientHorizontal = "bg-gradient-to-r from-purple-500/20 via--purple-500/20 to-purple-500/20"; 
   const socialLinks = [
     { href: 'https://x.com/Creativedi74653', icon: Twitter },
     { href: 'https://www.linkedin.com/', icon: Linkedin },
@@ -47,18 +46,18 @@ const Footer = () => {
   ];
 
   const navLinks = [
-    { name: isArabic ? 'الرئيسية' : 'HOME', href: '/' },
-    { name: isArabic ? 'من نحن' : 'ABOUT', href: '/about' },
-    { name: isArabic ? 'الخدمات' : 'SERVICES', href: '/services' },
-    { name: isArabic ? 'أعمالنا' : 'OUR WORK', href: '/work' },
-    { name: isArabic ? 'المدونة' : 'BLOGS', href: '/blogs' },
-    { name: isArabic ? 'تواصل معنا' : 'CONTACT', href: '/contact' },
+    { name: isArabic ? 'الرئيسية' : 'HOME', href: isArabic ? '/ar' : '/en' },
+    { name: isArabic ? 'من نحن' : 'ABOUT', href: isArabic ? '/ar/about' : '/en/about' },
+    { name: isArabic ? 'الخدمات' : 'SERVICES', href: isArabic ? 'ar/services' : '/en/services' },
+    { name: isArabic ? 'أعمالنا' : 'OUR WORK', href: isArabic ? '/ar/work' : '/en/work' },
+    { name: isArabic ? 'المدونة' : 'BLOGS', href: isArabic ? '/ar/blogs' : '/en/blogs' },
+    { name: isArabic ? 'تواصل معنا' : 'CONTACT', href: isArabic ? '/ar/contact' : '/en/contact' },
   ];
 
   return (
     <footer className="w-full text-white relative overflow-hidden pt-20" dir={isArabic ? 'rtl' : 'ltr'}
     style={{
-          background: 'radial-gradient(circle at 50% 50%, #1e1b4b 0%, #000000 60%)' // Deep purple center fading to black
+          background: 'radial-gradient(circle at 50% 50%, #06091c 0%, #06091c 60%)' // Deep purple center fading to black
         }}
     >
       
@@ -67,7 +66,7 @@ const Footer = () => {
 
       {/* --- Ambient Background Glow (Subtle) --- */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-purple-900/10 rounded-full blur-[120px]" />
+        <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#06091c]/10 rounded-full blur-[120px]" />
       </div>
 
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 md:px-12 relative z-10">

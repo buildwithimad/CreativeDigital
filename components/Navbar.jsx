@@ -14,6 +14,12 @@ const Navbar = () => {
   const pathname = usePathname();
   const isArabic = pathname?.startsWith('/ar');
 
+  const isSanity = pathname?.startsWith('/studio');
+
+  if(isSanity){
+    return null
+  };
+
   const links = [
     { label: isArabic ? 'الرئيسية' : 'Home', href: isArabic ? '/ar' : '/en' },
     { label: isArabic ? 'من نحن' : 'About', href: isArabic ? '/ar/about' : '/en/about' },

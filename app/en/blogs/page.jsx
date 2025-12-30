@@ -8,7 +8,7 @@ export const revalidate = 300; // Revalidate every 60 seconds
 export default async function BlogsPage() {
   const blogs = await client.fetch(BLOGS_LIST_QUERY);
 
-  const latestBlog = blogs?.[4] || null;
+  const latestBlog = blogs?.[0] || null;
 
   return (
     <>

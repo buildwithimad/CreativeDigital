@@ -1,13 +1,26 @@
 // sanity/queries/work.js
-export const WORK_QUERY = `
+import { groq } from "next-sanity";
+
+export const WORK_QUERY = groq`
   *[_type == "work"] | order(_createdAt desc) {
     _id,
     title,
     titleAr,
+    category,
+    categoryAr,
     description,
     descriptionAr,
-    thumbnail,
-    gallery
+    thumbnail {
+      asset->{
+        _id,
+        url
+      }
+    },
+    gallery[] {
+      asset->{
+        _id,
+        url
+      }
+    }
   }
-`
- 
+`;

@@ -56,8 +56,8 @@ const AboutSection = () => {
     
         
         {/* Top and Bottom Fades for section blending */}
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black to-transparent" />
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#06091c] to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#06091c] to-transparent" />
       </div>
 
 

@@ -1,57 +1,72 @@
-// sanity/queries/blog.js
 import { groq } from 'next-sanity';
 
-/* ---------------- BLOG LIST (FOR BLOGS PAGE) ---------------- */
+// 1. Query for the Blog Listing Page
 export const BLOGS_LIST_QUERY = groq`
   *[_type == "blogs"] | order(publishedAt desc) {
     _id,
     title,
     titleAr,
     "slug": slug.current,
+    publishedAt,
+    category,
+    categoryAr,
     introduction,
     introductionAr,
-    category,
-    publishedAt,
-    images[0]{
+    mainImage {
+      alt,
       asset->{
         _id,
-        url
+        url,
+        metadata {
+          lqip,
+          dimensions
+        }
       }
     }
   }
 `;
 
-/* ---------------- SINGLE BLOG BY SLUG ---------------- */
-export const BLOG_BY_SLUG_QUERY = groq`
-  *[_type == "blogs" && slug.current == $slug][0]{
+// 2. Query for the Single Blog Detail Page
+export const BLOG_DETAIL_QUERY = groq`
+  *[_type == "blogs" && slug.current == $slug][0] {
     _id,
     title,
     titleAr,
     "slug": slug.current,
-    category,
     publishedAt,
+    category,
+    categoryAr,
     introduction,
     introductionAr,
-    sections,
-    sectionsAr,
-    conclusion,
-    conclusionAr,
-    images[]{
+    mainImage {
+      alt,
       asset->{
         _id,
-        url
+        url,
+        metadata {
+          lqip,
+          dimensions
+        }
       }
+    },
+    // IMPORTANT: Fetch the Portable Text content arrays
+    content,
+    contentAr,
+    // SEO Settings
+    seo {
+      metaTitle,
+      metaDescription,
+      metaTitleAr,
+      metaDescriptionAr
     }
   }
 `;
 
-/* ---------------- BLOG NAVIGATION (PREV / NEXT) ---------------- */
+// 3. Navigation Query (Lightweight)
 export const BLOG_NAV_QUERY = groq`
   *[_type == "blogs"] | order(publishedAt desc) {
-    _id,
-    title,
-    titleAr,
     "slug": slug.current,
-    publishedAt
+    title,
+    titleAr
   }
 `;

@@ -1,15 +1,18 @@
-import ServicesPageContent from '@/components/services/ServiceContent'
-import ServicesHero from '@/components/services/Servicehero'
-import React from 'react'
+import ServicesHero from '@/components/services/Servicehero';
+import ServicesPageContent from '@/components/services/ServiceContent';
+import { SERVICES_LIST_QUERY } from '@/sanity/queries/services';
+import { client } from '@/sanity/lib/client';
 
-const ServicesPage = () => {
+export const revalidate = 300; // ISR – refresh every 5 minutes
+
+export default async function ServicesPage() {
+  // ✅ Fetch services list from Sanity
+  const services = await client.fetch(SERVICES_LIST_QUERY);
+
   return (
     <>
-    
-    <ServicesHero/>
-    <ServicesPageContent/>
+      <ServicesHero />
+      <ServicesPageContent services={services} />
     </>
-  )
+  );
 }
-
-export default ServicesPage

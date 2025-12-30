@@ -64,7 +64,7 @@ const CTASection = () => {
             {/* Performance Optimized Button */}
             <ScrollBasedAnimation direction="up" delay={0.3}>
               <Link 
-                href="/contact" 
+                href={isArabic ? '/ar/contact' : '/en/contact'}
                 className="group relative inline-flex items-center gap-4 px-10 py-5 rounded-full bg-white text-black hover:text-primary overflow-hidden transition-transform duration-300 active:scale-95 will-change-transform"
               >
                 

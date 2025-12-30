@@ -20,34 +20,33 @@ const BlogHero = ({ latestBlog }) => {
   );
 
   // ---------------------------------------------------------
-  // HIGH-QUALITY IMAGE RESOLVER
+  // 1. HIGH-QUALITY IMAGE RESOLVER
   // ---------------------------------------------------------
-  const imageObj = Array.isArray(latestBlog.images)
-    ? latestBlog.images[0]
-    : latestBlog.images;
+  const imageObj = latestBlog.mainImage || (Array.isArray(latestBlog.images) ? latestBlog.images[0] : latestBlog.images);
 
   let heroImage = '/placeholder.jpg';
   let blurImage = null;
 
   if (imageObj?.asset) {
-    heroImage = urlFor(imageObj)
-      .width(3840)
-      .height(2160)
-      .fit('crop')
-      .quality(100)
-      .auto('format')
-      .url();
-
     try {
+      heroImage = urlFor(imageObj)
+        .width(3840)
+        .height(2160)
+        .fit('crop')
+        .quality(100)
+        .auto('format')
+        .url();
+
       blurImage = urlFor(imageObj).width(20).quality(20).blur(50).url();
     } catch (e) {
-      console.warn("Could not generate blur image", e);
+      console.warn("Could not generate image URL", e);
     }
   }
 
   return (
     <section
-      className="relative w-full h-screen min-h-[800px] overflow-hidden bg-black group"
+      // UPDATED: Changed min-h-[800px] to min-h-[600px] for mobile
+      className="relative w-full h-[400px] md:h-[600px] lg:h-[800px] overflow-hidden bg-secondary group"
       dir={isArabic ? 'rtl' : 'ltr'}
     >
       {/* ---------------- BACKGROUND IMAGE ---------------- */}
@@ -65,20 +64,14 @@ const BlogHero = ({ latestBlog }) => {
           })}
         />
 
-        {/* ---------------- OVERLAYS (UPDATED FOR BLACK CONTRAST) ---------------- */}
-        
-        {/* 1. Base Dark Tint: Generally darkens the whole image so white text is readable anywhere */}
+        {/* ---------------- OVERLAYS ---------------- */}
         <div className="absolute inset-0 bg-[#06091c]/40 z-10" />
-
-        {/* 2. Bottom Fade: Solid black fade from bottom up. Ensures text area is always readable. */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#06091c] via-black/50 to-transparent z-10" />
-        
-        {/* 3. Vignette: Darkens edges to focus eyes on center/text */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.6)_100%)] z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#06091c] via-[#06091c]/50 to-transparent z-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgb(6_9_28)_100%)] z-10" />
       </div>
 
       {/* ---------------- CONTENT ---------------- */}
-      <div className="relative z-20 h-full max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col justify-end pb-20 md:pb-28">
+      <div className="relative z-20 h-full max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col justify-end pb-12 md:pb-28">
         <div className="flex flex-col md:flex-row items-end justify-between gap-12">
 
           {/* TEXT CONTENT */}
@@ -93,7 +86,7 @@ const BlogHero = ({ latestBlog }) => {
             </ScrollBasedAnimation>
 
             <ScrollBasedAnimation direction="up" delay={0.2}>
-              <h1 className="text-4xl md:text-7xl font-light text-white leading-[0.9] mb-8 tracking-tighter drop-shadow-lg">
+              <h1 className="text-4xl md:text-6xl font-light text-white leading-[0.9] mb-8 tracking-tighter drop-shadow-lg">
                 {isArabic ? latestBlog.titleAr : latestBlog.title}
               </h1>
             </ScrollBasedAnimation>
@@ -107,8 +100,7 @@ const BlogHero = ({ latestBlog }) => {
                 }
                 className="group/btn inline-flex items-center gap-6"
               >
-                {/* Button background made slightly darker/more blurred for contrast */}
-                <div className="h-14 px-8 border border-white/20 hover:border-accent bg-black/40 backdrop-blur-md rounded-full text-white flex items-center justify-center uppercase tracking-widest text-sm font-medium transition-all duration-300 group-hover/btn:bg-accent group-hover/btn:text-black group-hover/btn:border-accent">
+                <div className="h-14 px-8 border border-white/20 hover:border-accent bg-primary backdrop-blur-md rounded-full text-gray-700 flex items-center justify-center uppercase tracking-widest text-sm font-medium transition-all duration-300 group-hover/btn:bg-accent group-hover/btn:text-black group-hover/btn:border-accent">
                   {isArabic ? 'اقرأ المقال كاملاً' : 'Read Full Article'}
                 </div>
 
@@ -119,7 +111,7 @@ const BlogHero = ({ latestBlog }) => {
             </ScrollBasedAnimation>
           </div>
 
-          {/* SCROLL INDICATOR */}
+          {/* SCROLL INDICATOR (Hidden on Mobile) */}
           <div className="hidden md:flex flex-col items-center gap-4 text-white/50 animate-pulse pb-4">
             <span className="text-[10px] uppercase tracking-widest -rotate-90 origin-center translate-y-8 drop-shadow-md">
               {isArabic ? 'تصفح' : 'Scroll'}

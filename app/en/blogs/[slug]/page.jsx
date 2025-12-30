@@ -1,59 +1,57 @@
-import React from 'react';
+import { notFound } from 'next/navigation';
 import { client } from '@/sanity/lib/client';
-import {
-  BLOG_BY_SLUG_QUERY,
-  BLOG_NAV_QUERY,} from '@/sanity/queries/blogs';
+import { BLOG_DETAIL_QUERY, BLOG_NAV_QUERY } from '@/sanity/queries/blogs';
 import BlogDetailsHero from '@/components/blogs/BlogDetailsHero';
 import BlogDetailsContent from '@/components/blogs/BlogDetailsContent';
-import Link from 'next/link';
-import { categoryTitles } from '@/utils/categories';
 
-export const revalidate = 300; // Revalidate every 60 seconds
+export const dynamic = 'force-dynamic'; // <--- ADD THIS AT THE TOP
+export const revalidate = 0;
 
+// --- 1. SEO METADATA GENERATION (English Only) ---
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const blog = await client.fetch(BLOG_DETAIL_QUERY, { slug });
 
+  if (!blog) return { title: 'Blog Not Found' };
+
+  // Use SEO fields if available, otherwise fallback to standard title/intro
+  const title = blog.seo?.metaTitle || blog.title;
+  const description = blog.seo?.metaDescription || blog.introduction;
+
+  return {
+    title: title,
+    description: description,
+    openGraph: {
+      title: title,
+      description: description,
+      images: blog.mainImage?.asset?.url ? [{ url: blog.mainImage.asset.url }] : [],
+    },
+  };
+}
+
+// --- 2. MAIN PAGE COMPONENT (English Only) ---
 export default async function BlogDetailsPage({ params }) {
   const { slug } = await params;
 
-  /* -------- FETCH BLOG -------- */
-  const blog = await client.fetch(BLOG_BY_SLUG_QUERY, { 
-    slug 
-    });
+  // A. Fetch Current Blog
+  const blog = await client.fetch(BLOG_DETAIL_QUERY, { slug });
 
   if (!blog) {
-    return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Blog Not Found</h1>
-          <Link
-            href="/blogs"
-            className="bg-accent text-black px-6 py-3 rounded-lg font-semibold"
-          >
-            Back to Blogs
-          </Link>
-        </div>
-      </div>
-    );
+    notFound(); 
   }
 
-  /* -------- CATEGORY TITLE -------- */
-  blog.categoryTitle =
-    categoryTitles?.[blog.category] || blog.category;
-
-  /* -------- FETCH NAV BLOGS -------- */
+  // B. Fetch Navigation (Prev/Next)
   const allBlogs = await client.fetch(BLOG_NAV_QUERY);
-  const currentIndex = allBlogs.findIndex(
-    (b) => b.slug === slug
-  );
+  
+  // Find index of current blog
+  const currentIndex = allBlogs.findIndex((b) => b.slug === slug);
+  
+  // Determine Prev/Next logic (Newest First)
+  // Next in list (index - 1) is the NEWER post
+  // Prev in list (index + 1) is the OLDER post
+  const nextBlog = currentIndex > 0 ? allBlogs[currentIndex - 1] : null; 
+  const prevBlog = currentIndex < allBlogs.length - 1 ? allBlogs[currentIndex + 1] : null; 
 
-  const prevBlog =
-    currentIndex > 0 ? allBlogs[currentIndex - 1] : null;
-
-  const nextBlog =
-    currentIndex < allBlogs.length - 1
-      ? allBlogs[currentIndex + 1]
-      : null;
-
-  /* -------- RENDER -------- */
   return (
     <>
       <BlogDetailsHero blog={blog} />
