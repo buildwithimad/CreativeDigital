@@ -10,7 +10,7 @@ const ServicesSection = ({services}) => {
   const pathname = usePathname();
   const isAr = pathname?.includes('/ar');
 
-  const servicesSlice = services.slice(0,3);
+  const servicesSlice = services.slice(0,6);
 
   // OPTIMIZED TRANSITIONS
   const smoothTransition = "transition-transform duration-500 ease-out will-change-transform";
