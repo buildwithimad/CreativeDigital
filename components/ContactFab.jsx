@@ -10,17 +10,7 @@ export default function ContactFab() {
 
   const transition = { type: "spring", stiffness: 260, damping: 20 };
 
-  const pushContactEvent = (method) => {
-    if (typeof window !== "undefined") {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: "contact_click",
-        contact_method: method,
-        contact_location: "fab",
-      });
-    }
-  };
-
+ 
   return (
     <div
       dir="ltr"
@@ -35,8 +25,7 @@ export default function ContactFab() {
   onClick={() => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      event: "contact_click",
-      contact_method: "whatsapp",
+      event: "whatsapp_click",
       contact_location: "fab",
     });
 
@@ -56,14 +45,14 @@ export default function ContactFab() {
 </motion.button>
 
 
+
             {/* Call Button */}
-          <motion.button
+         <motion.button
   type="button"
   onClick={() => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      event: "contact_click",
-      contact_method: "call",
+      event: "call_click",
       contact_location: "fab",
     });
 
@@ -81,6 +70,7 @@ export default function ContactFab() {
 >
   <Phone size={25} />
 </motion.button>
+
 
           </>
         )}
