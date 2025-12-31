@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import GoogleTagManager from "@/components/GoogleTagManager";
 import ContactFab from "@/components/ContactFab";
+import LenisProvider from "@/components/LenisProvider";
 
 
 const spaceGrotesk = Space_Grotesk({
@@ -43,7 +44,9 @@ export default function Layout({ children }) {
         <ContactFab/>
 
         <Navbar />
-        {children}
+        <LenisProvider>
+          {children}  
+        </LenisProvider>
         <Footer />
       </body>
     </html>
