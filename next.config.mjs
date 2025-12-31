@@ -8,6 +8,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 const nextConfig = {
   reactCompiler: true,
   compress: true,
+
   images: {
     remotePatterns: [
       {
@@ -26,17 +27,30 @@ const nextConfig = {
         pathname: '/**',
       },
       {
-        protocol: "https",
+        protocol: 'https',
         hostname: 'images.pexels.com',
-        pathname: '/**'
-      }
+        pathname: '/**',
+      },
     ],
+
+    // ✅ ADD THIS (FIXES YOUR WARNING)
+    qualities: [60, 70, 75, 80],
   },
-  // Add caching headers
+
+  // ✅ SAFE CACHING (STATIC ASSETS ONLY)
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/images/(.*)',
         headers: [
           {
             key: 'Cache-Control',

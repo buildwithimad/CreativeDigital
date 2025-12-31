@@ -1,30 +1,26 @@
 export async function GET() {
-  const robotsTxt = `# Robots.txt for CreativeDigital
-# Allow all crawlers to access all content
+  const robotsTxt = `
+# Robots.txt for Creative Digital
+# https://www.creativeedigital.com
+
 User-agent: *
 Allow: /
 
-# Disallow access to admin/studio areas
+# Block non-public system paths
 Disallow: /studio/
 Disallow: /admin/
-Disallow: /api/
 
-# Disallow access to private or sensitive areas
+# Block Next.js internal build files
 Disallow: /_next/
-Disallow: /static/
 
-# Sitemap location
+# Sitemap
 Sitemap: https://www.creativeedigital.com/sitemap.xml
-
-# Crawl delay (optional)
-Crawl-delay: 1
-
 `;
 
-  return new Response(robotsTxt, {
+  return new Response(robotsTxt.trim(), {
     headers: {
       'Content-Type': 'text/plain',
-      'Cache-Control': 'public, max-age=86400, s-maxage=86400', // Cache for 24 hours
+      'Cache-Control': 'public, max-age=86400, s-maxage=86400',
     },
   });
 }

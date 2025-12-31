@@ -104,6 +104,18 @@ const ServicesSection = ({services}) => {
             </div>
           ))}
         </div>
+
+        {/* View All Services */}
+<div className="mt-10 md:mt-16 text-center relative z-10">
+  <Link
+    href={isAr ? '/ar/services' : '/en/services'}
+    className="inline-flex items-center gap-2 text-xs md:text-sm uppercase tracking-widest text-white/60 hover:text-white transition-colors duration-300"
+  >
+    {isAr ? 'عرض جميع الخدمات' : 'View All Services'}
+    <ArrowUpRight className="w-3.5 h-3.5" />
+  </Link>
+</div>
+
       </div>
     </section>
   );

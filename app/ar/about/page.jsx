@@ -1,32 +1,47 @@
 import AboutClient from './AboutClient';
 
-export const dynamic = "force-static";
+export const dynamic = 'force-static';
 
+// 🔹 Arabic SEO Metadata
 export const metadata = {
-  title: "About Us - CreativeDigital Team & Story",
-  description: "Learn about CreativeDigital's journey, our expert team of designers and developers, and our commitment to delivering exceptional digital solutions.",
-  keywords: ["about CreativeDigital", "web development team", "digital marketing experts", "creative agency", "our story", "عن CreativeDigital", "فريق تطوير مواقع", "خبراء التسويق الرقمي", "وكالة إبداعية", "قصتنا"],
-  openGraph: {
-    title: "About Us - CreativeDigital Team & Story",
-    description: "Learn about CreativeDigital's journey, our expert team of designers and developers, and our commitment to delivering exceptional digital solutions.",
-    type: "website",
-    locale: "en_US",
-    alternateLocale: "ar_SA",
+  title: 'من نحن | قصة Creative Digital وفريقنا',
+  description:
+    'تعرّف على قصة Creative Digital، رؤيتنا، وفريقنا المتخصص من المصممين والمطورين وخبراء التسويق الرقمي في تقديم حلول رقمية احترافية.',
+
+  keywords: [
+    'من نحن Creative Digital',
+    'فريق تطوير مواقع',
+    'شركة تصميم مواقع',
+    'خبراء التسويق الرقمي',
+    'وكالة تسويق رقمي',
+    'قصتنا',
+    'Creative Digital',
+  ],
+
+  alternates: {
+    canonical: 'https://www.creativeedigital.com/ar/about',
+    languages: {
+      ar: 'https://www.creativeedigital.com/ar/about',
+      en: 'https://www.creativeedigital.com/en/about',
+    },
   },
+
+  openGraph: {
+    title: 'من نحن | قصة Creative Digital وفريقنا',
+    description:
+      'تعرّف على رحلة Creative Digital وفريقنا المتخصص في تطوير المواقع والتسويق الرقمي وبناء الحلول الرقمية الحديثة.',
+    url: 'https://www.creativeedigital.com/ar/about',
+    siteName: 'Creative Digital',
+    type: 'website',
+    locale: 'ar_SA',
+    alternateLocale: 'en_US',
+  },
+
   twitter: {
     card: 'summary_large_image',
-    title: "About Us - CreativeDigital Team & Story",
-    description: "Learn about CreativeDigital's journey, our expert team of designers and developers, and our commitment to delivering exceptional digital solutions.",
-  },
-  alternates: {
-    canonical: '/about',
-  },
-  other: {
-    // Arabic metadata
-    'og:title:ar': 'من نحن - فريق CreativeDigital وقصتنا',
-    'og:description:ar': 'تعرف على رحلة CreativeDigital، فريقنا المتخصص من المصممين والمطورين، وتزامنا في تقديم حلول رقمية استثنائية.',
-    'twitter:title:ar': 'من نحن - فريق CreativeDigital وقصتنا',
-    'twitter:description:ar': 'تعرف على رحلة CreativeDigital، فريقنا المتخصص من المصممين والمطورين، وتزامنا في تقديم حلول رقمية استثنائية.',
+    title: 'من نحن | Creative Digital',
+    description:
+      'تعرف على قصة Creative Digital وفريقنا المتخصص في الحلول الرقمية وتطوير الأعمال عبر الإنترنت.',
   },
 };
 

@@ -10,6 +10,26 @@ const CTASection = () => {
   const pathname = usePathname();
   const isArabic = pathname?.startsWith('/ar');
 
+  const isContactPage = pathname === '/en/contact' || pathname === '/ar/contact';
+
+
+  const ctaHref = isContactPage
+  ? isArabic
+    ? '/ar/services'
+    : '/en/services'
+  : isArabic
+    ? '/ar/contact'
+    : '/en/contact';
+
+  const ctaLablel = isContactPage
+  ? isArabic
+    ? 'استكشف خدماتنا'
+    : 'Explore Our Services'
+  : isArabic
+    ? 'ابدأ المشروع'
+    : 'Start Project';
+
+
   // Lightweight CSS Gradients for borders
   const borderGradientHorizontal = "bg-gradient-to-r from-purple-500/30 via-blue-500/30 to-purple-500/30"; 
   const borderGradientVertical = "bg-gradient-to-b from-purple-500/30 via-blue-500/30 to-purple-500/30"; 
@@ -64,12 +84,12 @@ const CTASection = () => {
             {/* Performance Optimized Button */}
             <ScrollBasedAnimation direction="up" delay={0.3}>
               <Link 
-                href={isArabic ? '/ar/contact' : '/en/contact'}
+                href={ctaHref}
                 className="group relative inline-flex items-center gap-4 px-10 py-5 rounded-full bg-white text-black hover:text-primary overflow-hidden transition-transform duration-300 active:scale-95 will-change-transform"
               >
                 
                 <span className="relative z-10 text-sm font-bold tracking-widest uppercase">
-                  {isArabic ? "ابدأ المشروع" : "Start Project"}
+                  {ctaLablel}
                 </span>
 
                 <div className="relative z-10 p-2 bg-black rounded-full text-white transition-transform duration-300 group-hover:rotate-45">

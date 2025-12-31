@@ -76,26 +76,39 @@ Open [http://localhost:3000](http://localhost:3000) to view the website.
 - `npm run build` - Build for production
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
-- `npm run translate:ar` - Generate Arabic translations
 
 ## 🏗 Project Structure
 
 ```
 creativeedigital/
 ├── app/                    # Next.js app directory
-│   ├── api/               # API routes
-│   ├── blogs/             # Blog pages
-│   ├── contact/           # Contact page
-│   ├── services/          # Services page
-│   ├── work/              # Portfolio page
+│   ├── api/               # API routes (send-email, robots.txt, sitemap.xml)
+│   ├── en/                # English pages
+│   │   ├── blogs/         # Blog pages
+│   │   ├── contact/       # Contact page
+│   │   ├── services/      # Services page
+│   │   ├── work/          # Portfolio page
+│   │   └── page.js        # Homepage
+│   ├── ar/                # Arabic pages (RTL)
+│   │   ├── blogs/         # Blog pages
+│   │   ├── contact/       # Contact page
+│   │   ├── services/      # Services page
+│   │   ├── work/          # Portfolio page
+│   │   └── page.js        # Homepage
+│   ├── studio/            # Sanity Studio
 │   └── layout.js          # Root layout
 ├── components/            # React components
 │   ├── home/              # Homepage components
 │   ├── blogs/             # Blog components
+│   ├── contact/           # Contact components
+│   ├── services/          # Services components
+│   ├── work/              # Portfolio components
+│   ├── seo/               # SEO components
 │   └── ...                # Other components
 ├── lib/                   # Utility libraries
 ├── sanity/                # Sanity configuration
 │   ├── schemaTypes/       # Content schemas
+│   ├── queries/           # GROQ queries
 │   └── lib/               # Sanity client
 ├── public/                # Static assets
 └── utils/                 # Helper functions
@@ -103,11 +116,11 @@ creativeedigital/
 
 ## 🌍 Internationalization
 
-The website supports Arabic and English languages:
+The website supports Arabic and English languages using separate routes:
 
-- Arabic content is stored in `public/locales/ar/common.json`
-- English content is stored in `public/locales/en/common.json`
-- RTL support for Arabic layout
+- `/en/` - English pages
+- `/ar/` - Arabic pages with RTL layout
+- Content is managed through Sanity CMS with language-specific entries
 
 ## 📧 Contact
 

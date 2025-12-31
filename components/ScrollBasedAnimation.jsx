@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useRef, useEffect, useState } from "react";
-import { motion, useAnimation } from "framer-motion";
+import React, { useRef, useEffect, useState } from 'react';
+import { motion, useAnimation } from 'framer-motion';
 
 const ScrollBasedAnimation = ({
   children,
@@ -9,67 +9,62 @@ const ScrollBasedAnimation = ({
   delay = 0,
   duration = 0.4,
   offset = 70,
-  direction = "up",
+  direction = 'up',
 }) => {
   const ref = useRef(null);
   const controls = useAnimation();
-  const [isMounted, setIsMounted] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
+  // ✅ Mark mounted (prevents SSR mismatch)
   useEffect(() => {
-    setIsMounted(true); // mark component as mounted
+    setMounted(true);
   }, []);
 
+  // ✅ IntersectionObserver (client only)
   useEffect(() => {
-    if (!ref.current || !isMounted) return;
+    if (!mounted || !ref.current) return;
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        if (!isMounted) return;
-        const entry = entries[0];
+      ([entry]) => {
         if (entry.isIntersecting) {
-          controls.start("visible");
+          controls.start('visible');
         } else {
-          // Only animate to hidden if component is still mounted
-          if (isMounted) {
-            controls.start("hidden");
-          }
+          controls.start('hidden');
         }
       },
       { threshold }
     );
 
     observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [mounted, controls, threshold]);
 
-    return () => {
-      if (ref.current) observer.unobserve(ref.current);
-    };
-  }, [controls, threshold, isMounted]);
-
-  // Determine offset direction
-  const getOffset = () => {
-    switch (direction) {
-      case "up":
-        return { y: offset };
-      case "down":
-        return { y: -offset };
-      case "left":
-        return { x: offset };
-      case "right":
-        return { x: -offset };
-      default:
-        return { y: offset };
-    }
-  };
+  // Offset direction
+  const offsetStyle =
+    direction === 'up'
+      ? { y: offset }
+      : direction === 'down'
+      ? { y: -offset }
+      : direction === 'left'
+      ? { x: offset }
+      : direction === 'right'
+      ? { x: -offset }
+      : { y: offset };
 
   const variants = {
-    hidden: { opacity: 0, ...getOffset() },
+    hidden: { opacity: 0, ...offsetStyle },
     visible: {
       opacity: 1,
       x: 0,
       y: 0,
-      transition: { duration, delay, ease: "easeOut" },
+      transition: { duration, delay, ease: 'easeOut' },
     },
   };
+
+  // 🔒 CRITICAL: render STATIC markup until mounted
+  if (!mounted) {
+    return <div>{children}</div>;
+  }
 
   return (
     <motion.div
@@ -77,7 +72,7 @@ const ScrollBasedAnimation = ({
       variants={variants}
       initial="hidden"
       animate={controls}
-    style={{ willChange: "transform, opacity", pointerEvents: "auto" }}
+      style={{ willChange: 'transform, opacity' }}
     >
       {children}
     </motion.div>

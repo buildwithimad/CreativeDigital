@@ -1,52 +1,93 @@
-export async function GET() {
-  // Base URL - replace with your actual domain
-  const baseUrl = 'https://www.creativeedigital.com';
+import { client } from '@/sanity/lib/client';
+import { BLOGS_LIST_QUERY } from '@/sanity/queries/blogs';
+import { SERVICES_LIST_QUERY } from '@/sanity/queries/services';
 
-  // Static pages that exist in both languages
-  const staticPages = [
+export async function GET() {
+  const baseUrl = 'https://www.creativeedigital.com';
+  const now = new Date().toISOString();
+  const urls = [];
+
+  // ---------- STATIC ROUTES ----------
+  const staticRoutes = [
     '',
     '/about',
     '/services',
     '/work',
-    '/blogs'
+    '/blogs',
+    '/contact',
   ];
 
-  // Generate sitemap entries for all pages (no language prefixes since using client-side i18n)
-  const sitemapEntries = [];
-
-  // Add entries for static pages
-  staticPages.forEach(page => {
-    sitemapEntries.push({
-      url: `${baseUrl}${page}`,
-      lastModified: new Date().toISOString(),
-      changeFrequency: 'weekly',
-      priority: page === '' ? 1.0 : 0.8,
-    });
+  staticRoutes.forEach((route) => {
+    urls.push(
+      {
+        loc: `${baseUrl}/en${route}`,
+        lastmod: now,
+        changefreq: 'weekly',
+        priority: route === '' ? 1.0 : 0.8,
+      },
+      {
+        loc: `${baseUrl}/ar${route}`,
+        lastmod: now,
+        changefreq: 'weekly',
+        priority: route === '' ? 1.0 : 0.8,
+      }
+    );
   });
 
-  // You can add dynamic blog entries here if needed
-  // For now, we'll add a placeholder for blog posts
-  sitemapEntries.push({
-    url: `${baseUrl}/blogs`,
-    lastModified: new Date().toISOString(),
-    changeFrequency: 'daily',
-    priority: 0.9,
+  // ---------- DYNAMIC: BLOGS ----------
+  const blogs = await client.fetch(BLOGS_LIST_QUERY);
+
+  blogs?.forEach((blog) => {
+    urls.push(
+      {
+        loc: `${baseUrl}/en/blogs/${blog.slug}`,
+        lastmod: blog._updatedAt || now,
+        changefreq: 'monthly',
+        priority: 0.7,
+      },
+      {
+        loc: `${baseUrl}/ar/blogs/${blog.slug}`,
+        lastmod: blog._updatedAt || now,
+        changefreq: 'monthly',
+        priority: 0.7,
+      }
+    );
   });
 
-  // Generate XML
+  // ---------- DYNAMIC: SERVICES ----------
+  const services = await client.fetch(SERVICES_LIST_QUERY);
+
+  services?.forEach((service) => {
+    urls.push(
+      {
+        loc: `${baseUrl}/en/services/${service.slug}`,
+        lastmod: service._updatedAt || now,
+        changefreq: 'monthly',
+        priority: 0.8,
+      },
+      {
+        loc: `${baseUrl}/ar/services/${service.slug}`,
+        lastmod: service._updatedAt || now,
+        changefreq: 'monthly',
+        priority: 0.8,
+      }
+    );
+  });
+
+  // ---------- XML ----------
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-
-${sitemapEntries.map(entry => `  <url>
-    <loc>${entry.url}</loc>
-    <lastmod>${entry.lastModified}</lastmod>
-    <changefreq>${entry.changeFrequency}</changefreq>
-    <priority>${entry.priority}</priority>
-  </url>`).join('\n')}
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls
+  .map(
+    (url) => `
+  <url>
+    <loc>${url.loc}</loc>
+    <lastmod>${url.lastmod}</lastmod>
+    <changefreq>${url.changefreq}</changefreq>
+    <priority>${url.priority}</priority>
+  </url>`
+  )
+  .join('')}
 </urlset>`;
 
   return new Response(sitemap, {
