@@ -10,6 +10,17 @@ export default function ContactFab() {
 
   const transition = { type: "spring", stiffness: 260, damping: 20 };
 
+  const pushContactEvent = (method) => {
+    if (typeof window !== "undefined") {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "contact_click",
+        contact_method: method,
+        contact_location: "fab",
+      });
+    }
+  };
+
   return (
     <div
       dir="ltr"
@@ -19,56 +30,58 @@ export default function ContactFab() {
         {open && (
           <>
             {/* WhatsApp Button */}
-            <motion.a
-              initial={{ opacity: 0, y: 10, scale: 0.5 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.5 }}
-              transition={{ delay: 0.1, ...transition }}
-              href="https://wa.me/966511267458"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-gtm="whatsapp-click"
-              aria-label="Chat on WhatsApp"
-              className="
-                group relative flex items-center justify-center 
-                w-12 h-12 rounded-full 
-                bg-green-600 text-white 
-                border border-white/10 
-                shadow-2xl 
-                hover:scale-105 
-                transition-all duration-300
-              "
-            >
-              <FaWhatsapp
-                size={30}
-                className="group-hover:scale-110 transition-transform duration-300"
-              />
-            </motion.a>
+            <motion.button
+  type="button"
+  onClick={() => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "contact_click",
+      contact_method: "whatsapp",
+      contact_location: "fab",
+    });
+
+    window.open("https://wa.me/966511267458", "_blank");
+  }}
+  className="
+    group relative flex items-center justify-center 
+    w-12 h-12 rounded-full 
+    bg-green-600 text-white 
+    border border-white/10 
+    shadow-2xl 
+    hover:scale-105 
+    transition-all duration-300
+  "
+>
+  <FaWhatsapp size={30} />
+</motion.button>
+
 
             {/* Call Button */}
-            <motion.a
-              initial={{ opacity: 0, y: 10, scale: 0.5 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.5 }}
-              transition={{ delay: 0.05, ...transition }}
-              href="tel:+966511267458"
-              data-gtm="phone-click"
-              aria-label="Call Creative Digital"
-              className="
-                group relative flex items-center justify-center 
-                w-12 h-12 rounded-full 
-                bg-[#06091c] text-white 
-                border border-white/10 
-                shadow-2xl 
-                hover:border-blue-500 hover:text-blue-500 
-                transition-all duration-300
-              "
-            >
-              <Phone
-                size={25}
-                className="group-hover:scale-110 transition-transform duration-300"
-              />
-            </motion.a>
+          <motion.button
+  type="button"
+  onClick={() => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "contact_click",
+      contact_method: "call",
+      contact_location: "fab",
+    });
+
+    window.location.href = "tel:+966511267458";
+  }}
+  className="
+    group relative flex items-center justify-center 
+    w-12 h-12 rounded-full 
+    bg-[#06091c] text-white 
+    border border-white/10 
+    shadow-2xl 
+    hover:border-blue-500 hover:text-blue-500 
+    transition-all duration-300
+  "
+>
+  <Phone size={25} />
+</motion.button>
+
           </>
         )}
       </AnimatePresence>
