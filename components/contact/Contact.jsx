@@ -49,55 +49,72 @@ export default function Contact() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setStatus({ type: '', message: '' });
+  e.preventDefault();
 
-    try {
-      const payload = {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        company: formData.company,
-        subject: `New Inquiry: ${formData.company || formData.name}`,
-        message: formData.message,
-      };
+  setIsSubmitting(true);
+  setStatus({ type: '', message: '' });
 
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+  try {
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      company: formData.company,
+      subject: `New Inquiry: ${formData.company || formData.name}`,
+      message: formData.message,
+    };
 
-      if (response.ok) {
-        setStatus({
-          type: 'success',
-          message: isArabic
-            ? 'تم استلام رسالتك! سنتواصل معك قريباً.'
-            : 'Message received! We will be in touch shortly.',
-        });
+    const response = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
 
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          company: '',
-          message: '',
-        });
-      } else {
-        throw new Error('Failed');
-      }
-    } catch {
-      setStatus({
-        type: 'error',
-        message: isArabic
-          ? 'حدث خطأ. يرجى المحاولة مرة أخرى.'
-          : 'Something went wrong. Please try again.',
-      });
-    } finally {
-      setIsSubmitting(false);
+    if (!response.ok) {
+      throw new Error('Failed to send message');
     }
-  };
+
+    // ✅ GA4 / GTM – FIRE ONLY ON SUCCESS
+    if (typeof window !== 'undefined') {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'contact_form_submit',
+        form_location: 'contact_page',
+        page_path: window.location.pathname,
+      });
+    }
+
+    // ✅ SUCCESS UI
+    setStatus({
+      type: 'success',
+      message: isArabic
+        ? 'تم استلام رسالتك! سنتواصل معك قريباً.'
+        : 'Message received! We will be in touch shortly.',
+    });
+
+    // ✅ RESET FORM
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      company: '',
+      message: '',
+    });
+  } catch (error) {
+    // ❌ ERROR UI
+    setStatus({
+      type: 'error',
+      message: isArabic
+        ? 'حدث خطأ. يرجى المحاولة مرة أخرى.'
+        : 'Something went wrong. Please try again.',
+    });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   return (
     <section
