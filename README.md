@@ -124,7 +124,7 @@ The website supports Arabic and English languages using separate routes:
 
 ## 📧 Contact
 
-For inquiries: hello@creativeedigital.com
+For inquiries: info@creativeedigital.com
 
 ## 🚀 Deployment
 

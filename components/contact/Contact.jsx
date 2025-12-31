@@ -125,8 +125,8 @@ export default function Contact() {
             </ScrollBasedAnimation>
 
             <div className="space-y-6">
-              <a href="tel:+966573672733" data-gtm="phone-click" className="flex items-center gap-4">
-                <Phone /> +966 57 367 2733
+              <a href="tel:+966511267458" data-gtm="phone-click" className="flex items-center gap-4">
+                <Phone /> +966 51 1267 458
               </a>
 
               <a
