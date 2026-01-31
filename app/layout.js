@@ -45,7 +45,7 @@ export default function Layout({ children }) {
 
         <Navbar />
         <LenisProvider>
-          {children}  
+          {children}
         </LenisProvider>
         <Footer />
       </body>
